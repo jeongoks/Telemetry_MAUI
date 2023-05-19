@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Telemetry.MAUI.Models
+namespace Telemetry.Service.Models
 {
-    public class Telemetry
+    public class Measurement
     {
         public double Temperature { get; set; }
         public double Humidity { get; set; }
