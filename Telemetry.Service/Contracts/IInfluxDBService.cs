@@ -10,6 +10,6 @@ namespace Telemetry.Service.Contracts
     public interface IInfluxDBService
     {
         Task<List<Measurement>> GetMeasurements();
-        Task WriteToDB(Measurement measurements);
+        Task WriteToDB(Measurement measurements, string topic);
     }
 }

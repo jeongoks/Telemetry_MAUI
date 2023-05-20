@@ -43,7 +43,7 @@ namespace Telemetry.Service.Services
             {
                 string message = Encoding.UTF8.GetString(e.ApplicationMessage.PayloadSegment);
                 Measurement measurement = JsonSerializer.Deserialize<Measurement>(message);
-                await _influxDBService.WriteToDB(measurement);
+                await _influxDBService.WriteToDB(measurement, e.ApplicationMessage.Topic);
             };
 
             await _mqttClient.ConnectAsync(mqttClientOptions, stoppingToken);

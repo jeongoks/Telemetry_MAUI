@@ -35,15 +35,17 @@ namespace Telemetry.Service.Services
             return measurements;
         }
 
-        public async Task WriteToDB(Measurement measurement)
+        public async Task WriteToDB(Measurement measurement, string topic)
         {
-            using var client = new InfluxDBClient(_configuration["_INFLUXDB:_URL"], _configuration["_INFLUXDB:_TOKEN"]);
+            string location = topic.Split("/")[2];
+
+            using var client = new InfluxDBClient(_configuration["_INFLUXDB:_URL"], _configuration["_INFLUXDB:_TOKEN"]);            
 
             // Write Data
             var writeApi = client.GetWriteApiAsync();
 
             // Write by LineProtocol
-            await writeApi.WriteRecordAsync($"{_configuration["_INFLUXDB:_MEASUREMENT"]},Sensor={_configuration["_INFLUXDB:_TAG"]} Temperature={measurement.Temperature.ToString("F", new CultureInfo("en-US"))},Humidity={measurement.Humidity.ToString("F", new CultureInfo("en-US"))},TimeStamp={measurement.TimeStamp}", WritePrecision.Ns, _configuration["_INFLUXDB:_BUCKET"], _configuration["_INFLUXDB:_ORGANIZATION"]);
+            await writeApi.WriteRecordAsync($"{_configuration["_INFLUXDB:_MEASUREMENT"]},Location={location} Temperature={measurement.Temperature.ToString("F", new CultureInfo("en-US"))},Humidity={measurement.Humidity.ToString("F", new CultureInfo("en-US"))}", WritePrecision.Ns, _configuration["_INFLUXDB:_BUCKET"], _configuration["_INFLUXDB:_ORGANIZATION"]);
         }
     }
 }

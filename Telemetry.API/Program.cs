@@ -28,9 +28,9 @@ app.MapGet("/telemetries", async (IInfluxDBService influxDBService) =>
     return await influxDBService.GetMeasurements();
 });
 
-app.MapPost("/servo", async (IMqttClientPublish publishClient, string message) =>
+app.MapPost("/servo", async (IMqttClientPublish publishClient, string message, string location) =>
 {
-    await publishClient.PublishMessage(message);
+    await publishClient.PublishMessage(message, location);
 });
 
 app.Run();

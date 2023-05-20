@@ -8,8 +8,9 @@ namespace Telemetry.Service.Models
 {
     public class Measurement
     {
+        public string Location { get; set; }
         public double Temperature { get; set; }
-        public double Humidity { get; set; }
-        public DateTime TimeStamp { get; set; }
+        public double Humidity { get; set; }        
+        public DateTime Time { get; set; }
     }
 }
