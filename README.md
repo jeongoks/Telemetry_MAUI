@@ -29,7 +29,7 @@ This is a diagram to give an overview of how the whole solution speaks together 
 
 ## Optional requirements
  - [ ] The opportunity to choose different meassurement readings, eg. the different rooms in the house.
- - [ ] An alarn which will advertise that the `Temperature` is out of its limit - high or low.
+ - [ ] An alarm which will advertise that the `Temperature` is out of its limit - high or low.
 
 ## API Overview and Endpoints
 | API               | Description               | Request body | Response body            |
