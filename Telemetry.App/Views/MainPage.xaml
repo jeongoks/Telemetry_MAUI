@@ -9,19 +9,23 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="10"/>
                 <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
 
             <VerticalStackLayout x:DataType="viewModels:ChartViewModel">
                 <lvc:CartesianChart Grid.Row="0" MaximumHeightRequest="300" Margin="5" Series="{Binding Series}"
                                     XAxes="{Binding XAxis}" YAxes="{Binding YAxis}"
-                                    TooltipPosition="Center" TooltipTextSize="30"
+                                    TooltipPosition="Center" TooltipTextSize="35"
                                     LegendPosition="Top" LegendTextPaint="{Binding LegendTextPaint}" LegendTextSize="35"></lvc:CartesianChart>
 
-                <StackLayout Grid.Row="1" Orientation="Horizontal" HorizontalOptions="Center" Margin="30">
-                    <Button Margin="6" Text="Latest hour"/>
-                    <Button Margin="6" Text="Latest day" />
-                    <Button Margin="6" Text="Latest week" />
+                <Label Grid.Row="1" Text="Filter options" Margin="0,30,0,0"
+                       HorizontalOptions="Center" FontSize="18" FontAttributes="Bold" />
+
+                <StackLayout Grid.Row="2" Orientation="Horizontal" HorizontalOptions="Center">
+                    <Button Margin="6" Command="{Binding LatestHourCommand}" Text="Latest hour"/>
+                    <Button Margin="6" Command="{Binding LatestDayCommand}" Text="Latest day" />
+                    <Button Margin="6" Command="{Binding LatestWeekCommand}" Text="Latest week" />
                 </StackLayout>
             </VerticalStackLayout>            
             

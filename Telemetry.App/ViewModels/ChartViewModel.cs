@@ -8,12 +8,14 @@ using System.Text;
 using System.Threading.Tasks;
 using LiveChartsCore.SkiaSharpView.Painting;
 using SkiaSharp;
+using CommunityToolkit.Mvvm.Input;
 
 namespace Telemetry.App.ViewModels
 {
     public partial class ChartViewModel : ObservableObject
     {
-        public ISeries[] Series { get; set; } =
+        [ObservableProperty]
+        public ISeries[] _series =
         {
             new LineSeries<double>
             {
@@ -40,7 +42,8 @@ namespace Telemetry.App.ViewModels
             }
         };
 
-        public Axis[] YAxis { get; set; } = new Axis[]
+        [ObservableProperty]
+        public Axis[] _yAxis = new Axis[]
         {
             new Axis
             {
@@ -52,7 +55,8 @@ namespace Telemetry.App.ViewModels
             }
         };
 
-        public Axis[] XAxis { get; set; } = new Axis[]
+        [ObservableProperty]
+        public Axis[] _xAxis = new Axis[]
         {
             new Axis
             {
@@ -69,5 +73,56 @@ namespace Telemetry.App.ViewModels
         {
             Color = SKColors.Black  
         };
+
+        [RelayCommand]
+        public async Task LatestHour()
+        {
+            XAxis = new Axis[]
+            {
+                new Axis
+                {
+                    Name = "Time stamps - in minutes",
+                    NamePaint = new SolidColorPaint(SKColors.Black),
+                    NameTextSize = 40,
+                    Labels = new string[] { "10", "20", "30", "40", "50", "60" },
+                    LabelsPaint = new SolidColorPaint(SKColors.Coral),
+                    TextSize= 35
+                }
+            };
+        }
+
+        [RelayCommand]
+        public async Task LatestDay()
+        {
+            XAxis = new Axis[]
+            {
+                new Axis
+                {
+                    Name = "Time stamps - in hours",
+                    NamePaint = new SolidColorPaint(SKColors.Black),
+                    NameTextSize = 40,
+                    Labels = new string[] { "4", "8", "12", "16", "20", "24" },
+                    LabelsPaint = new SolidColorPaint(SKColors.Coral),
+                    TextSize= 35
+                }
+            };
+        }
+
+        [RelayCommand]
+        public async Task LatestWeek()
+        {
+            XAxis = new Axis[]
+            {
+                new Axis
+                {
+                    Name = "Time stamps - in days",
+                    NamePaint = new SolidColorPaint(SKColors.Black),
+                    NameTextSize = 40,
+                    Labels = new string[] { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" },
+                    LabelsPaint = new SolidColorPaint(SKColors.Coral),
+                    TextSize= 35
+                }
+            };
+        }
     }
 }
