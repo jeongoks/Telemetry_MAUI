@@ -4,9 +4,9 @@ namespace Telemetry.App.Views;
 
 public partial class MainPage : ContentPage
 {
-	public MainPage(ChartViewModel chartViewModel)
+	public MainPage(OverviewViewModel overviewViewModel)
 	{
-		InitializeComponent();
-		BindingContext = chartViewModel;
+		InitializeComponent();	
+		BindingContext = overviewViewModel;
 	}
 }

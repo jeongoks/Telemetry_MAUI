@@ -40,7 +40,7 @@ namespace Telemetry.Service.Services
             }
 
             var applicationMessage = new MqttApplicationMessageBuilder()
-                .WithTopic($"telemetry/home/{location}")
+                .WithTopic($"telemetry/home/{location}/led")
                 .WithPayload(message)
                 .Build();
 

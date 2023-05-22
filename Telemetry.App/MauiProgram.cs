@@ -20,7 +20,10 @@ public static class MauiProgram
 			});
 
 		builder.Services.AddSingleton<MainPage>();
+		builder.Services.AddSingleton<GraphPage>();
+
 		builder.Services.AddTransient<ChartViewModel>();
+		builder.Services.AddTransient<OverviewViewModel>();
 
 #if DEBUG
 		builder.Logging.AddDebug();

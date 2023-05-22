@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Telemetry.App.Views.GraphPage"
+             xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.Maui;assembly=LiveChartsCore.SkiaSharpView.Maui"
+             xmlns:viewModels="clr-namespace:Telemetry.App.ViewModels">
+
+    <ScrollView>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="10"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="20"/>
+            </Grid.RowDefinitions>
+
+            <VerticalStackLayout x:DataType="viewModels:ChartViewModel">
+                <lvc:CartesianChart Grid.Row="0" MaximumHeightRequest="300" Margin="5" Series="{Binding Series}"
+                                    XAxes="{Binding XAxis}" YAxes="{Binding YAxis}"
+                                    TooltipPosition="Center" TooltipTextSize="35"
+                                    LegendPosition="Top" LegendTextPaint="{Binding LegendTextPaint}" LegendTextSize="35"></lvc:CartesianChart>
+
+                <Label Grid.Row="1" Text="Filter options" Margin="0,30,0,0"
+                       HorizontalOptions="Center" FontSize="18" FontAttributes="Bold" />
+
+                <StackLayout Grid.Row="2" Orientation="Horizontal" HorizontalOptions="Center">
+                    <Button Margin="6" Command="{Binding LatestHourCommand}" Text="Latest hour"/>
+                    <Button Margin="6" Command="{Binding LatestDayCommand}" Text="Latest day" />
+                    <Button Margin="6" Command="{Binding LatestWeekCommand}" Text="Latest week" />
+                </StackLayout>
+
+                <StackLayout Grid.Row="3" Orientation="Horizontal" HorizontalOptions="Center">
+
+                </StackLayout>
+            </VerticalStackLayout>
+
+        </Grid>
+    </ScrollView>
+</ContentPage>

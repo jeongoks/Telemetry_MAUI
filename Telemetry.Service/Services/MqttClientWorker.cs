@@ -35,7 +35,6 @@ namespace Telemetry.Service.Services
                 .WithTls()
                 .WithClientId(_configuration["_CLIENTID"])
                 .WithCleanSession(false)
-                .WithWillQualityOfServiceLevel(MqttQualityOfServiceLevel.AtLeastOnce)
                 .WithCredentials(_configuration["_USERNAME"], _configuration["_PASSWORD"])
                 .Build();
 
@@ -46,7 +45,7 @@ namespace Telemetry.Service.Services
                 await _influxDBService.WriteToDB(measurement, e.ApplicationMessage.Topic);
             };
 
-            await _mqttClient.ConnectAsync(mqttClientOptions, stoppingToken);
+            await _mqttClient.ConnectAsync(mqttClientOptions, CancellationToken.None);
 
             var mqttSubscribeOptions = mqttFactory.CreateSubscribeOptionsBuilder()
                 .WithTopicFilter(

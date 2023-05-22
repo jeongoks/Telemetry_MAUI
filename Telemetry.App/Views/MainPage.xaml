@@ -2,33 +2,73 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Telemetry.App.Views.MainPage"
-             xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.Maui;assembly=LiveChartsCore.SkiaSharpView.Maui"
              xmlns:viewModels="clr-namespace:Telemetry.App.ViewModels">
-
     <ScrollView>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="10"/>
                 <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
 
-            <VerticalStackLayout x:DataType="viewModels:ChartViewModel">
-                <lvc:CartesianChart Grid.Row="0" MaximumHeightRequest="300" Margin="5" Series="{Binding Series}"
-                                    XAxes="{Binding XAxis}" YAxes="{Binding YAxis}"
-                                    TooltipPosition="Center" TooltipTextSize="35"
-                                    LegendPosition="Top" LegendTextPaint="{Binding LegendTextPaint}" LegendTextSize="35"></lvc:CartesianChart>
+            <VerticalStackLayout x:DataType="viewModels:OverviewViewModel">
+                <Frame Margin="10">
+                    <Grid RowDefinitions="*, Auto, Auto, Auto">
+                        <Label HorizontalOptions="Center" 
+                               FontAttributes="Bold"
+                               Text="Latest temperature reading" 
+                               FontSize="20" />                        
+                        
+                        <Grid Grid.Row="2" 
+                              RowDefinitions="Auto, Auto, Auto, Auto" 
+                              ColumnDefinitions="*, *" 
+                              Margin="0,10,0,10">
 
-                <Label Grid.Row="1" Text="Filter options" Margin="0,30,0,0"
-                       HorizontalOptions="Center" FontSize="18" FontAttributes="Bold" />
+                            <Label HorizontalOptions="EndAndExpand" 
+                                   Text="Room: " 
+                                   Margin="5"
+                                   FontAttributes="Bold"
+                                   Grid.Column="0"
+                                   FontSize="15" />
+                            <Label HorizontalOptions="StartAndExpand"
+                                   Grid.Column="1"
+                                   Text="{Binding Location}" 
+                                   Margin="5"
+                                   FontSize="15" />
+                            <Label Grid.Column="0" 
+                                   Grid.Row="1"
+                                   HorizontalOptions="Center"
+                                   Text="Temperature:" 
+                                   FontSize="18"/>                            
+                            <Label Grid.Column="1" 
+                                   Grid.Row="1"
+                                   HorizontalOptions="Center"
+                                   Text="Humidity:" 
+                                   FontSize="18"/>                            
+                            <Label Grid.Row="2" 
+                                   Grid.Column="0" 
+                                   HorizontalOptions="Center"
+                                   Text="{Binding Temperature}" 
+                                   FontSize="18"/>
+                            <Label Grid.Row="2" 
+                                   Grid.Column="1" 
+                                   HorizontalOptions="Center"
+                                   Text="{Binding Humidity}" 
+                                   FontSize="18"/>
+                        </Grid>
+                        <Label Grid.Row="3" 
+                               HorizontalOptions="Center"
+                               Text="{Binding Date}" 
+                               FontSize="13"/>
+                    </Grid>
+                </Frame>
+                
+                <Button Grid.Row="1" 
+                        ImageSource="../Images/flashlight.svg" 
+                        Text="LED control" 
+                        TextColor="Black" 
+                        WidthRequest="200"/>
+            </VerticalStackLayout>
 
-                <StackLayout Grid.Row="2" Orientation="Horizontal" HorizontalOptions="Center">
-                    <Button Margin="6" Command="{Binding LatestHourCommand}" Text="Latest hour"/>
-                    <Button Margin="6" Command="{Binding LatestDayCommand}" Text="Latest day" />
-                    <Button Margin="6" Command="{Binding LatestWeekCommand}" Text="Latest week" />
-                </StackLayout>
-            </VerticalStackLayout>            
-            
         </Grid>
-    </ScrollView>  
+    </ScrollView>
 </ContentPage>
