@@ -31,11 +31,11 @@ This is a diagram to give an overview of how the whole solution speaks together 
 <table>
     <thead>
         <tr>
-            <th>Topic</th>
-            <th>Client</th>
-            <th>Body sample</th>
-            <th>Publish/Subscribe type</th>
+            <th>Topic</th>      
+            <th>Pub/Sub</th>
+            <th>Body sample</th>            
             <th>Description</th>
+            <th>Client</th>
         </tr>
     </thead>
 <tbody>
@@ -44,22 +44,22 @@ This is a diagram to give an overview of how the whole solution speaks together 
     <i>telemetry</i>/home</i>/<i>led</i>
 </td>
 <td>
-    <b>TelemetryAppClient</b>
+    Publish
 </td>
 <td>
     Sending "HIGH" or "LOW"
 <td>
-    Publish 
+    Tell a device to turn a LED <b>ON</b> or <b>OFF</b> by using a switch on our .NET MAUI application. 
 </td>
 <td>
-    Tell a device to turn a LED <b>ON</b> or <b>OFF</b> by using a switch on our .NET MAUI application.
+    <b>TelemetryAppClient</b>    
 </tr>
 <tr>
 <td>
     <i>telemetry</i>/home</i>/<i>#</i>
 </td>
 <td>
-    <b>TelemetryAppClient</b>
+    Subscribe 
 </td>
 <td>
 
@@ -72,17 +72,17 @@ This is a diagram to give an overview of how the whole solution speaks together 
 }
 ```
 <td>
-    Subscribe 
+    Receive a jSon object reading sensor values from the <b>MKRWiFi1010_Client</b>.    
 </td>
-<td>
-   Receive a jSon object reading sensor values from the <b>MKRWiFi1010_Client</b>.
+<td>   
+   <b>TelemetryAppClient</b>
 </tr>
 <tr>
 <td>
     <i>telemetry</i>/home</i>/<i>{location}</i>
 </td>
 <td>
-    <b>MKRWiFi1010_Client</b>
+    Subscribe 
 </td>
 <td>
 
@@ -94,11 +94,11 @@ This is a diagram to give an overview of how the whole solution speaks together 
     "time": "2023-05-22T20:10:43.511Z"
 }
 ```
-<td>
-    Subscribe 
+<td>    
+    Publishing sensor values, being serialized into a jSon object so that we can receive it in our <b>TelemetryAppClient</b> and use that data to display in our .NET MAUI application.
 </td>
 <td>
-   Publishing sensor values, being serialized into a jSon object so that we can receive it in our <b>TelemetryAppClient</b> and use that data to display in our .NET MAUI application.
+    <b>MKRWiFi1010_Client</b>   
 </tr>
 </tbody>
 </table>
