@@ -68,7 +68,6 @@ namespace Telemetry.App.ViewModels
                 Name = "Time stamps - in days",
                 NamePaint = new SolidColorPaint(SKColors.Black),
                 NameTextSize = 40,
-                Labels = new string[] { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" },
                 LabelsPaint = new SolidColorPaint(SKColors.Coral),
                 TextSize= 35
             }
