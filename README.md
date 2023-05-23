@@ -47,17 +47,12 @@ This is a diagram to give an overview of how the whole solution speaks together 
     <b>TelemetryAppClient</b>
 </td>
 <td>
-
-```json
-{
-    "HIGH" or "LOW"
-}
-```
+    Sending "HIGH" or "LOW"
 <td>
     Publish 
 </td>
 <td>
-    Tell a device to turn a LED <b>ON</b> or <b>OFF</b>
+    Tell a device to turn a LED <b>ON</b> or <b>OFF</b> by using a switch on our .NET MAUI application.
 </tr>
 <tr>
 <td>
