@@ -162,5 +162,32 @@ namespace Telemetry.App.ViewModels
                 }
             };
         }
+
+        [RelayCommand]
+        public async Task AllMeasurements()
+        {
+            Measurements = await _apiService.GetAllMeasurements();
+            double[] lastHumidity = Measurements.Select(x => x.Humidity).ToArray();
+            Series[0].Values = lastHumidity;
+
+            double[] lastTemperature = Measurements.Select(x => x.Temperature).ToArray();
+            Series[1].Values = lastTemperature;
+
+            string[] labels = Measurements.Select(x => x.Time.AddHours(2).DayOfWeek.ToString()).ToArray();
+
+            XAxis = new Axis[]
+            {
+                new Axis
+                {
+                    Name = "Time stamps",
+                    NamePaint = new SolidColorPaint(SKColors.Black),
+                    NameTextSize = 40,
+                    Labels = labels,
+                    LabelsRotation = 60,
+                    LabelsPaint = new SolidColorPaint(SKColors.Coral),
+                    TextSize= 35
+                }
+            };
+        }
     }
 }

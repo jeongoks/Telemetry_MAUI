@@ -11,6 +11,7 @@ namespace Telemetry.App.Contracts
     public interface IApiService
     {
         Task<Measurement> GetLatestMeasurement();
+        Task<ObservableCollection<Measurement>> GetAllMeasurements();
         Task<ObservableCollection<Measurement>> GetMeasurementsLatestDay();
         Task<ObservableCollection<Measurement>> GetMeasurementsLatestHour();
         Task<ObservableCollection<Measurement>> GetMeasurementsLatestWeek();
