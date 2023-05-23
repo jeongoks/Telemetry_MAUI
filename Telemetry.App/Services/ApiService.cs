@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Polly;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Linq;
 using System.Net.Http.Json;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 using Telemetry.App.Contracts;
 using Telemetry.App.Models;
 
@@ -34,7 +30,10 @@ namespace Telemetry.App.Services
             Measurement measurement = new Measurement();
             try
             {
-                HttpResponseMessage response = await _httpClient.GetAsync(uri);
+                HttpResponseMessage response = await Policy.HandleResult<HttpResponseMessage>(res => !res.IsSuccessStatusCode)
+                    .RetryAsync(10)
+                    .ExecuteAsync(async () => await _httpClient.GetAsync(uri));
+
                 if (response.IsSuccessStatusCode)
                 {
                     string content = await response.Content.ReadAsStringAsync();
@@ -56,7 +55,10 @@ namespace Telemetry.App.Services
             ObservableCollection<Measurement> measurements = new ObservableCollection<Measurement>();
             try
             {
-                HttpResponseMessage response = await _httpClient.GetAsync(uri);
+                HttpResponseMessage response = await Policy.HandleResult<HttpResponseMessage>(res => !res.IsSuccessStatusCode)
+                    .RetryAsync(10)
+                    .ExecuteAsync(async () => await _httpClient.GetAsync(uri));
+
                 if (response.IsSuccessStatusCode)
                 {
                     string content = await response.Content.ReadAsStringAsync();
@@ -78,7 +80,10 @@ namespace Telemetry.App.Services
             ObservableCollection<Measurement> measurements = new ObservableCollection<Measurement>();
             try
             {
-                HttpResponseMessage response = await _httpClient.GetAsync(uri);
+                HttpResponseMessage response = await Policy.HandleResult<HttpResponseMessage>(res => !res.IsSuccessStatusCode)
+                    .RetryAsync(10)
+                    .ExecuteAsync(async () => await _httpClient.GetAsync(uri));
+
                 if (response.IsSuccessStatusCode)
                 {
                     string content = await response.Content.ReadAsStringAsync();
@@ -100,7 +105,10 @@ namespace Telemetry.App.Services
             ObservableCollection<Measurement> measurements = new ObservableCollection<Measurement>();
             try
             {
-                HttpResponseMessage response = await _httpClient.GetAsync(uri);
+                HttpResponseMessage response = await Policy.HandleResult<HttpResponseMessage>(res => !res.IsSuccessStatusCode)
+                    .RetryAsync(10)
+                    .ExecuteAsync(async () => await _httpClient.GetAsync(uri));
+
                 if (response.IsSuccessStatusCode)
                 {
                     string content = await response.Content.ReadAsStringAsync();
@@ -122,7 +130,10 @@ namespace Telemetry.App.Services
             ObservableCollection<Measurement> measurements = new ObservableCollection<Measurement>();
             try
             {
-                HttpResponseMessage response = await _httpClient.GetAsync(uri);
+                HttpResponseMessage response = await Policy.HandleResult<HttpResponseMessage>(res => !res.IsSuccessStatusCode)
+                    .RetryAsync(10)
+                    .ExecuteAsync(async () => await _httpClient.GetAsync(uri));
+
                 if (response.IsSuccessStatusCode)
                 {
                     string content = await response.Content.ReadAsStringAsync();
@@ -142,7 +153,10 @@ namespace Telemetry.App.Services
             Uri uri = new Uri(string.Format(Constants.RestUrl, "servo"));
             try
             {
-                HttpResponseMessage response = await _httpClient.PostAsJsonAsync(uri, isToggled);
+                HttpResponseMessage response = await Policy.HandleResult<HttpResponseMessage>(res => !res.IsSuccessStatusCode)
+                    .RetryAsync(10)
+                    .ExecuteAsync(async () => await _httpClient.PostAsJsonAsync(uri, isToggled));
+
                 if (response.IsSuccessStatusCode)
                 {
                     Debug.WriteLine(@"Successfully sent to device!");

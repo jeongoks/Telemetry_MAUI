@@ -22,27 +22,27 @@ namespace Telemetry.App.ViewModels
         [ObservableProperty]
         private ISeries[] _series =
         {
-            new LineSeries<double>
+            new LineSeries<double> 
             {
                 Name = "Humidity",
-                Values = new double[] {  },
+                Values = new double[] { },
                 Stroke = new SolidColorPaint(SKColors.DarkSlateBlue) { StrokeThickness = 4 },
                 Fill = null,
                 GeometryFill = null,
                 GeometryStroke = null,
-                LineSmoothness = 0,
+                LineSmoothness = 1,
                 TooltipLabelFormatter = (chartPoint) => $"{chartPoint.Context.Series.Name}: {chartPoint.PrimaryValue}"
             },
 
             new LineSeries<double>
             {
                 Name = "Temperature",
-                Values = new double[] { 19.5, 20.4, 24.7, 16.5, 20.7, 30, 20.3 },
+                Values = new double [] { },
                 Stroke = new SolidColorPaint(SKColors.Red) { StrokeThickness = 4 },
                 Fill = null,
                 GeometryFill = null,
                 GeometryStroke = null,
-                LineSmoothness = 0,
+                LineSmoothness = 1,
                 TooltipLabelFormatter = (chartPoint) => $"{chartPoint.Context.Series.Name}: {chartPoint.PrimaryValue}"
             }
         };
@@ -68,7 +68,6 @@ namespace Telemetry.App.ViewModels
                 Name = "Time stamps - in days",
                 NamePaint = new SolidColorPaint(SKColors.Black),
                 NameTextSize = 40,
-                Labels = new string[] { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" },
                 LabelsPaint = new SolidColorPaint(SKColors.Coral),
                 TextSize= 35
             }
@@ -85,6 +84,8 @@ namespace Telemetry.App.ViewModels
         [RelayCommand]
         public async Task LatestHour()
         {
+            if (Connectivity.NetworkAccess != NetworkAccess.Internet) { return; }
+
             Measurements = await _apiService.GetMeasurementsLatestHour();
             double[] lastHumidity = Measurements.Select(x => x.Humidity).ToArray();
             Series[0].Values = lastHumidity;
@@ -112,6 +113,8 @@ namespace Telemetry.App.ViewModels
         [RelayCommand]
         public async Task LatestDay()
         {
+            if (Connectivity.NetworkAccess != NetworkAccess.Internet) { return; }
+
             Measurements = await _apiService.GetMeasurementsLatestDay();
             double[] lastHumidity = Measurements.Select(x => x.Humidity).ToArray();
             Series[0].Values = lastHumidity;
@@ -139,6 +142,8 @@ namespace Telemetry.App.ViewModels
         [RelayCommand]
         public async Task LatestWeek()
         {
+            if (Connectivity.NetworkAccess != NetworkAccess.Internet) { return; }
+
             Measurements = await _apiService.GetMeasurementsLatestWeek();
             double[] lastHumidity = Measurements.Select(x => x.Humidity).ToArray();
             Series[0].Values = lastHumidity;
@@ -166,6 +171,8 @@ namespace Telemetry.App.ViewModels
         [RelayCommand]
         public async Task AllMeasurements()
         {
+            if (Connectivity.NetworkAccess != NetworkAccess.Internet) { return; }
+
             Measurements = await _apiService.GetAllMeasurements();
             double[] lastHumidity = Measurements.Select(x => x.Humidity).ToArray();
             Series[0].Values = lastHumidity;

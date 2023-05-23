@@ -47,12 +47,12 @@
                             <Label Grid.Row="2" 
                                    Grid.Column="0" 
                                    HorizontalOptions="Center"
-                                   Text="{Binding OverviewMeasurement.Temperature}" 
+                                   Text="{Binding OverviewMeasurement.Temperature, StringFormat='{0:F1}°C'}" 
                                    FontSize="18"/>
                             <Label Grid.Row="2" 
                                    Grid.Column="1" 
                                    HorizontalOptions="Center"
-                                   Text="{Binding OverviewMeasurement.Humidity}" 
+                                   Text="{Binding OverviewMeasurement.Humidity, StringFormat='{0}%'}" 
                                    FontSize="18"/>
                         </Grid>
                         <Label Grid.Row="3" 
@@ -62,7 +62,7 @@
                     </Grid>
                 </Frame>
 
-                <Frame>
+                <Frame Margin="10">
                     <Grid ColumnDefinitions="*,*, *">
                         <Image Grid.Column="0"
                                Source="../Images/flashlight.svg" />
