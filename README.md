@@ -28,11 +28,85 @@ This is a diagram to give an overview of how the whole solution speaks together 
 | `GET/telemetry/lastWeek` | Get **all** Measurement items the last week | None         | Array of Measurement items   |
 
 ## MQTT Topics
-| Topics                      | Client             | Publish/Subscribe type | Body sample                                                                                               | Description                                                                                                                                                                          |
-|-----------------------------|--------------------|------------------------|-----------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `telemetry/home/led`        | TelemetryAppClient | Publish                | `{ "HIGH / LOW" }`                                                                                        | Tell a device to turn a LED `ON` or `OFF`                                                                                                                                            |
-| `telemetry/home/#`          | TelemetryAppClient | Subscribe              | `{ "location": "living-room", "temperature": 22.45, "humidity": 40, "time": "2023-05-22T20:10:43.511Z" }` | Receive a `jSon object` reading sensor values from the **MKRWiFi1010_Client**.                                                                                                       |
-| `telemetry/home/{location}` | MKRWiFi1010_Client | Publish                | `{ "location": "living-room", "temperature": 22.45, "humidity": 40, "time": "2023-05-22T20:10:43.511Z" }` | Publishing sensor values, being serialized into a `jSon object` so that we can receive it in our **TelemetryAppClient** and use that data to display in our `.NET MAUI` applikation. |
+<table>
+    <thead>
+        <tr>
+            <th>Topic</th>
+            <th>Client</th>
+            <th>Body sample</th>
+            <th>Publish/Subscribe type</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+<tbody>
+<tr>
+<td>
+    <i>telemetry</i>/home</i>/<i>#</i>
+</td>
+<td>
+    <b>TelemetryAppClient</b>
+</td>
+<td>
+
+```json
+{
+    "HIGH" or "LOW"
+}
+```
+<td>
+    Publish 
+</td>
+<td>
+    Tell a device to turn a LED <b>ON</b> or <b>OFF</b>
+</tr>
+<tr>
+<td>
+    <i>telemetry</i>/home</i>/<i>led</i>
+</td>
+<td>
+    <b>TelemetryAppClient</b>
+</td>
+<td>
+
+```json
+{
+    "location": "living-room",
+    "temperature": 22.5,
+    "humidity": 10.2,
+    "time": "2023-05-22T20:10:43.511Z"
+}
+```
+<td>
+    Subscribe 
+</td>
+<td>
+   Receive a jSon object reading sensor values from the <b>MKRWiFi1010_Client</b>.
+</tr>
+<tr>
+<td>
+    <i>telemetry</i>/home</i>/<i>{location}</i>
+</td>
+<td>
+    <b>MKRWiFi1010_Client</b>
+</td>
+<td>
+
+```json
+{
+    "location": "living-room",
+    "temperature": 22.5,
+    "humidity": 10.2,
+    "time": "2023-05-22T20:10:43.511Z"
+}
+```
+<td>
+    Subscribe 
+</td>
+<td>
+   Publishing sensor values, being serialized into a jSon object so that we can receive it in our <b>TelemetryAppClient</b> and use that data to display in our .NET MAUI application.
+</tr>
+</tbody>
+</table>
 
 ## Requirements
  - [x] Show latest reading of `Temperature` and `Humidity` and the meassured times in local time.
