@@ -41,7 +41,7 @@ This is a diagram to give an overview of how the whole solution speaks together 
 <tbody>
 <tr>
 <td>
-    <i>telemetry</i>/home</i>/<i>#</i>
+    <i>telemetry</i>/home</i>/<i>led</i>
 </td>
 <td>
     <b>TelemetryAppClient</b>
@@ -56,7 +56,7 @@ This is a diagram to give an overview of how the whole solution speaks together 
 </tr>
 <tr>
 <td>
-    <i>telemetry</i>/home</i>/<i>led</i>
+    <i>telemetry</i>/home</i>/<i>#</i>
 </td>
 <td>
     <b>TelemetryAppClient</b>
