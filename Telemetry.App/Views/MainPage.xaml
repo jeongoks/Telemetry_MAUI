@@ -61,12 +61,20 @@
                                FontSize="13"/>
                     </Grid>
                 </Frame>
+
+                <Frame>
+                    <Grid ColumnDefinitions="*,*, *">
+                        <Image Grid.Column="0"
+                               Source="../Images/flashlight.svg" />
+                        <Label Grid.Column="1"
+                               Text="LED Control"
+                               FontAttributes="Bold"/>
+
+                        <Switch Grid.Column="2"
+                                IsToggled="{Binding IsToggled}" />
+                    </Grid>
+                </Frame>
                 
-                <Button Grid.Row="1" 
-                        ImageSource="../Images/flashlight.svg" 
-                        Text="LED control" 
-                        TextColor="Black" 
-                        WidthRequest="200"/>
             </VerticalStackLayout>
 
         </Grid>

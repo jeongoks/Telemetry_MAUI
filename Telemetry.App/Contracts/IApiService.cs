@@ -12,6 +12,7 @@ namespace Telemetry.App.Contracts
     {
         Task<Measurement> GetLatestMeasurement();
         Task<ObservableCollection<Measurement>> GetAllMeasurements();
+        Task<bool> TurnOnLedAsync(string isToggled);
         Task<ObservableCollection<Measurement>> GetMeasurementsLatestDay();
         Task<ObservableCollection<Measurement>> GetMeasurementsLatestHour();
         Task<ObservableCollection<Measurement>> GetMeasurementsLatestWeek();

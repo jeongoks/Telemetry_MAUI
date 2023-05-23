@@ -21,7 +21,7 @@ namespace Telemetry.Service.Services
             _configuration = configuration;
         }
 
-        public async Task PublishMessage(string message, string location)
+        public async Task PublishMessage(string message)
         {
             var mqttFactory = new MqttFactory();
             _mqttClient = mqttFactory.CreateMqttClient();
@@ -40,7 +40,7 @@ namespace Telemetry.Service.Services
             }
 
             var applicationMessage = new MqttApplicationMessageBuilder()
-                .WithTopic($"telemetry/home/{location}/led")
+                .WithTopic($"telemetry/home/led")
                 .WithPayload(message)
                 .Build();
 

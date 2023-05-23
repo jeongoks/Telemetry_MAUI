@@ -22,10 +22,25 @@ namespace Telemetry.App.ViewModels
         [ObservableProperty]
         private Measurement _overviewMeasurement;
 
+        [ObservableProperty]
+        private bool _isToggled;
+
         [RelayCommand]
         public async void GetLatestReading()
         {
             OverviewMeasurement = await _apiService.GetLatestMeasurement();
+        }
+
+        async partial void OnIsToggledChanged(bool value)
+        {
+            if (value)
+            {
+                await _apiService.TurnOnLedAsync("HIGH");
+            }
+            else if (!value)
+            {
+                await _apiService.TurnOnLedAsync("LOW");
+            }
         }
     }
 }
