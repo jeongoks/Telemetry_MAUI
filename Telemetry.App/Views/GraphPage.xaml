@@ -23,14 +23,19 @@
                 <Label Grid.Row="1" Text="Filter options" Margin="0,30,0,0"
                        HorizontalOptions="Center" FontSize="18" FontAttributes="Bold" />
 
-                <StackLayout Grid.Row="2" Orientation="Horizontal" HorizontalOptions="Center">
+                <StackLayout Grid.Row="2" Orientation="Horizontal" HorizontalOptions="Center" IsVisible="{Binding IsVisible}">
                     <Button Margin="6" Command="{Binding LatestHourCommand}" Text="Latest hour"/>
                     <Button Margin="6" Command="{Binding LatestDayCommand}" Text="Latest day" />
                     <Button Margin="6" Command="{Binding LatestWeekCommand}" Text="Latest week" />
                 </StackLayout>
 
                 <StackLayout Grid.Row="3" Orientation="Horizontal" HorizontalOptions="Center">
-
+                    <Frame>
+                        <Picker Title="Select room"
+                                HorizontalTextAlignment="Center"
+                                ItemsSource="{Binding Locations}"                            
+                                SelectedIndex="{Binding SelectedIndex}"/>
+                    </Frame>                    
                 </StackLayout>
             </VerticalStackLayout>
 
