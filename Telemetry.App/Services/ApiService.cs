@@ -48,6 +48,28 @@ namespace Telemetry.App.Services
             return measurement;
         }
 
+        public async Task<ObservableCollection<Measurement>> GetAllMeasurements()
+        {
+            Uri uri = new Uri(string.Format(Constants.RestUrl, "telemetries"));
+
+            ObservableCollection<Measurement> measurements = new ObservableCollection<Measurement>();
+            try
+            {
+                HttpResponseMessage response = await _httpClient.GetAsync(uri);
+                if (response.IsSuccessStatusCode)
+                {
+                    string content = await response.Content.ReadAsStringAsync();
+                    measurements = JsonSerializer.Deserialize<ObservableCollection<Measurement>>(content, _serializerOptions);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(@"\tERROR {0}", ex.Message);
+                throw;
+            }
+            return measurements;
+        }
+
         public async Task<ObservableCollection<Measurement>> GetMeasurementsLatestDay()
         {
             Uri uri = new Uri(string.Format(Constants.RestUrl, "telemetry/lastDay"));
