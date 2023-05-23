@@ -1,24 +1,31 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Telemetry.App.Contracts;
+using Telemetry.App.Models;
 
 namespace Telemetry.App.ViewModels
 {
     public partial class OverviewViewModel : ObservableObject
     {
-        [ObservableProperty]
-        private double _temperature;
+        private readonly IApiService _apiService;
+
+        public OverviewViewModel(IApiService apiService)
+        {
+            _apiService = apiService;
+        }
 
         [ObservableProperty]
-        private double _humidity;
+        private Measurement _overviewMeasurement;
 
-        [ObservableProperty]
-        private string _location;
-
-        [ObservableProperty]
-        private DateTime _date;
+        [RelayCommand]
+        public async void GetLatestReading()
+        {
+            OverviewMeasurement = await _apiService.GetLatestMeasurement();
+        }
     }
 }

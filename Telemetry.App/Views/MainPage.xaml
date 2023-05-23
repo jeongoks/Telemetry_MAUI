@@ -31,7 +31,7 @@
                                    FontSize="15" />
                             <Label HorizontalOptions="StartAndExpand"
                                    Grid.Column="1"
-                                   Text="{Binding Location}" 
+                                   Text="{Binding OverviewMeasurement.Location}" 
                                    Margin="5"
                                    FontSize="15" />
                             <Label Grid.Column="0" 
@@ -47,17 +47,17 @@
                             <Label Grid.Row="2" 
                                    Grid.Column="0" 
                                    HorizontalOptions="Center"
-                                   Text="{Binding Temperature}" 
+                                   Text="{Binding OverviewMeasurement.Temperature}" 
                                    FontSize="18"/>
                             <Label Grid.Row="2" 
                                    Grid.Column="1" 
                                    HorizontalOptions="Center"
-                                   Text="{Binding Humidity}" 
+                                   Text="{Binding OverviewMeasurement.Humidity}" 
                                    FontSize="18"/>
                         </Grid>
                         <Label Grid.Row="3" 
                                HorizontalOptions="Center"
-                               Text="{Binding Date}" 
+                               Text="{Binding OverviewMeasurement.Time}" 
                                FontSize="13"/>
                     </Grid>
                 </Frame>

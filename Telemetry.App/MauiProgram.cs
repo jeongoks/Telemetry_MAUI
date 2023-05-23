@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using SkiaSharp.Views.Maui.Controls.Hosting;
+using Telemetry.App.Contracts;
+using Telemetry.App.Services;
 using Telemetry.App.ViewModels;
 using Telemetry.App.Views;
 
@@ -21,6 +23,7 @@ public static class MauiProgram
 
 		builder.Services.AddSingleton<MainPage>();
 		builder.Services.AddSingleton<GraphPage>();
+		builder.Services.AddSingleton<IApiService, ApiService>();
 
 		builder.Services.AddTransient<ChartViewModel>();
 		builder.Services.AddTransient<OverviewViewModel>();
