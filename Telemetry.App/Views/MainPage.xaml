@@ -67,10 +67,14 @@
                         <Image Grid.Column="0"
                                Source="../Images/flashlight.svg" />
                         <Label Grid.Column="1"
+                               VerticalTextAlignment="Center"
+                               FontSize="20"
                                Text="LED Control"
                                FontAttributes="Bold"/>
 
                         <Switch Grid.Column="2"
+                                OnColor="DarkSalmon"
+                                ThumbColor="Coral"
                                 IsToggled="{Binding IsToggled}" />
                     </Grid>
                 </Frame>
