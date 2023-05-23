@@ -27,6 +27,13 @@ This is a diagram to give an overview of how the whole solution speaks together 
 | `GET/telemetry/lastDay`  | Get **all** Measurement items the last day  | None         | Array of Measurement items   |
 | `GET/telemetry/lastWeek` | Get **all** Measurement items the last week | None         | Array of Measurement items   |
 
+## MQTT Topics
+| Topics                      | Client             | Publish/Subscribe type | Body sample                                                                                               | Description                                                                                                                                                                          |
+|-----------------------------|--------------------|------------------------|-----------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `telemetry/home/led`        | TelemetryAppClient | Publish                | `{ "HIGH / LOW" }`                                                                                        | Tell a device to turn a LED `ON` or `OFF`                                                                                                                                            |
+| `telemetry/home/#`          | TelemetryAppClient | Subscribe              | `{ "location": "living-room", "temperature": 22.45, "humidity": 40, "time": "2023-05-22T20:10:43.511Z" }` | Receive a `jSon object` reading sensor values from the **MKRWiFi1010_Client**.                                                                                                       |
+| `telemetry/home/{location}` | MKRWiFi1010_Client | Publish                | `{ "location": "living-room", "temperature": 22.45, "humidity": 40, "time": "2023-05-22T20:10:43.511Z" }` | Publishing sensor values, being serialized into a `jSon object` so that we can receive it in our **TelemetryAppClient** and use that data to display in our `.NET MAUI` applikation. |
+
 ## Requirements
  - [x] Show latest reading of `Temperature` and `Humidity` and the meassured times in local time.
  - [x] Show a graph of the meassurements, where you can choose between latest hour, day and week.
