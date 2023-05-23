@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -134,6 +135,26 @@ namespace Telemetry.App.Services
                 throw;
             }
             return measurements;
+        }
+
+        public async Task<bool> TurnOnLedAsync(string isToggled)
+        {
+            Uri uri = new Uri(string.Format(Constants.RestUrl, "servo"));
+            try
+            {
+                HttpResponseMessage response = await _httpClient.PostAsJsonAsync(uri, isToggled);
+                if (response.IsSuccessStatusCode)
+                {
+                    Debug.WriteLine(@"Successfully sent to device!");
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(@"\tERROR {0}", ex.Message);
+                throw;
+            }
+            return false;
         }
     }
 }

@@ -8,6 +8,6 @@ namespace Telemetry.Service.Contracts
 {
     public interface IMqttClientPublish
     {
-        Task PublishMessage(string message, string location);
+        Task PublishMessage(string message);
     }
 }
