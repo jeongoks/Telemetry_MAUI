@@ -62,7 +62,7 @@
                     </Grid>
                 </Frame>
 
-                <Frame>
+                <Frame Margin="10">
                     <Grid ColumnDefinitions="*,*, *">
                         <Image Grid.Column="0"
                                Source="../Images/flashlight.svg" />

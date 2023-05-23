@@ -28,11 +28,15 @@ namespace Telemetry.App.ViewModels
         [RelayCommand]
         public async void GetLatestReading()
         {
+            if (Connectivity.NetworkAccess != NetworkAccess.Internet) { return; }
+
             OverviewMeasurement = await _apiService.GetLatestMeasurement();
         }
 
         async partial void OnIsToggledChanged(bool value)
         {
+            if(Connectivity.NetworkAccess != NetworkAccess.Internet) { return; }
+
             if (value)
             {
                 await _apiService.TurnOnLedAsync("HIGH");
