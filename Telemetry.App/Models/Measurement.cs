@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Telemetry.Service.Models
+namespace Telemetry.App.Models
 {
     public class Measurement
     {

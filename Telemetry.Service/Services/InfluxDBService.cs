@@ -28,11 +28,11 @@ namespace Telemetry.Service.Services
             var queryApi = client.GetQueryApiSync();
 
             var query = InfluxDBQueryable<Measurement>.Queryable(_configuration["_INFLUXDB:_BUCKET"], _configuration["_INFLUXDB:_ORGANIZATION"], queryApi)
-                        .OrderByDescending(x => x.Time)
-                        .ToList()
+                        .ToList()        
+                        .OrderByDescending(i => i.Time)
                         .Take(1);
 
-            Measurement measurement = query.FirstOrDefault(); ;
+            Measurement measurement = query.FirstOrDefault(); 
 
             return measurement;
         }

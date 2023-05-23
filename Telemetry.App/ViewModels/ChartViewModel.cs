@@ -1,26 +1,31 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using LiveChartsCore.SkiaSharpView;
+using CommunityToolkit.Mvvm.Input;
 using LiveChartsCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
 using SkiaSharp;
-using CommunityToolkit.Mvvm.Input;
+using System.Collections.ObjectModel;
+using Telemetry.App.Contracts;
+using Telemetry.App.Models;
 
 namespace Telemetry.App.ViewModels
 {
     public partial class ChartViewModel : ObservableObject
     {
+        private readonly IApiService _apiService;
+
+        public ChartViewModel(IApiService apiService)
+        {
+            _apiService = apiService;
+        }
+
         [ObservableProperty]
-        public ISeries[] _series =
+        private ISeries[] _series =
         {
             new LineSeries<double>
             {
                 Name = "Humidity",
-                Values = new double[] { 42, 10, 50, 23, 16, 40, 49 },
+                Values = new double[] {  },
                 Stroke = new SolidColorPaint(SKColors.DarkSlateBlue) { StrokeThickness = 4 },
                 Fill = null,
                 GeometryFill = null,
@@ -43,7 +48,7 @@ namespace Telemetry.App.ViewModels
         };
 
         [ObservableProperty]
-        public Axis[] _yAxis = new Axis[]
+        private Axis[] _yAxis = new Axis[]
         {
             new Axis
             {
@@ -56,7 +61,7 @@ namespace Telemetry.App.ViewModels
         };
 
         [ObservableProperty]
-        public Axis[] _xAxis = new Axis[]
+        private Axis[] _xAxis = new Axis[]
         {
             new Axis
             {
@@ -69,6 +74,9 @@ namespace Telemetry.App.ViewModels
             }
         };
 
+        [ObservableProperty]
+        private ObservableCollection<Measurement> measurements;
+
         public SolidColorPaint LegendTextPaint { get; set; } = new SolidColorPaint
         {
             Color = SKColors.Black  
@@ -77,14 +85,24 @@ namespace Telemetry.App.ViewModels
         [RelayCommand]
         public async Task LatestHour()
         {
+            Measurements = await _apiService.GetMeasurementsLatestHour();
+            double[] lastHumidity = Measurements.Select(x => x.Humidity).ToArray();
+            Series[0].Values = lastHumidity;
+
+            double[] lastTemperature = Measurements.Select(x => x.Temperature).ToArray();
+            Series[1].Values = lastTemperature;
+
+            string[] labels = Measurements.Select(x => x.Time.AddHours(2).ToLocalTime().ToString("HH:mm")).ToArray();
+
             XAxis = new Axis[]
             {
                 new Axis
                 {
-                    Name = "Time stamps - in minutes",
+                    Name = "Time stamps",
                     NamePaint = new SolidColorPaint(SKColors.Black),
                     NameTextSize = 40,
-                    Labels = new string[] { "10", "20", "30", "40", "50", "60" },
+                    Labels = labels,
+                    LabelsRotation = 60,
                     LabelsPaint = new SolidColorPaint(SKColors.Coral),
                     TextSize= 35
                 }
@@ -94,14 +112,24 @@ namespace Telemetry.App.ViewModels
         [RelayCommand]
         public async Task LatestDay()
         {
+            Measurements = await _apiService.GetMeasurementsLatestDay();
+            double[] lastHumidity = Measurements.Select(x => x.Humidity).ToArray();
+            Series[0].Values = lastHumidity;
+
+            double[] lastTemperature = Measurements.Select(x => x.Temperature).ToArray();
+            Series[1].Values = lastTemperature;
+
+            string[] labels = Measurements.Select(x => x.Time.AddHours(2).ToLocalTime().ToString("HH:mm")).ToArray();
+
             XAxis = new Axis[]
             {
                 new Axis
                 {
-                    Name = "Time stamps - in hours",
+                    Name = "Time stamps",
                     NamePaint = new SolidColorPaint(SKColors.Black),
                     NameTextSize = 40,
-                    Labels = new string[] { "4", "8", "12", "16", "20", "24" },
+                    Labels = labels,
+                    LabelsRotation = 60,
                     LabelsPaint = new SolidColorPaint(SKColors.Coral),
                     TextSize= 35
                 }
@@ -111,14 +139,24 @@ namespace Telemetry.App.ViewModels
         [RelayCommand]
         public async Task LatestWeek()
         {
+            Measurements = await _apiService.GetMeasurementsLatestWeek();
+            double[] lastHumidity = Measurements.Select(x => x.Humidity).ToArray();
+            Series[0].Values = lastHumidity;
+
+            double[] lastTemperature = Measurements.Select(x => x.Temperature).ToArray();
+            Series[1].Values = lastTemperature;
+
+            string[] labels = Measurements.Select(x => x.Time.AddHours(2).DayOfWeek.ToString()).ToArray();
+
             XAxis = new Axis[]
             {
                 new Axis
                 {
-                    Name = "Time stamps - in days",
+                    Name = "Time stamps",
                     NamePaint = new SolidColorPaint(SKColors.Black),
                     NameTextSize = 40,
-                    Labels = new string[] { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" },
+                    Labels = labels,
+                    LabelsRotation = 60,
                     LabelsPaint = new SolidColorPaint(SKColors.Coral),
                     TextSize= 35
                 }

@@ -15,7 +15,7 @@
             </Grid.RowDefinitions>
 
             <VerticalStackLayout x:DataType="viewModels:ChartViewModel">
-                <lvc:CartesianChart Grid.Row="0" MaximumHeightRequest="300" Margin="5" Series="{Binding Series}"
+                <lvc:CartesianChart Grid.Row="0" MaximumHeightRequest="300" Margin="5" Series="{Binding Series}"                                    
                                     XAxes="{Binding XAxis}" YAxes="{Binding YAxis}"
                                     TooltipPosition="Center" TooltipTextSize="35"
                                     LegendPosition="Top" LegendTextPaint="{Binding LegendTextPaint}" LegendTextSize="35"></lvc:CartesianChart>
