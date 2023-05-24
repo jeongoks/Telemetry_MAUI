@@ -115,7 +115,7 @@ This is a diagram to give an overview of how the whole solution speaks together 
 
 
 ## Optional requirements
- - [ ] The opportunity to choose different meassurement readings, eg. the different rooms in the house.
+ - [x] The opportunity to choose different meassurement readings, eg. the different rooms in the house.
  - [ ] An alarm which will advertise that the `Temperature` is out of its limit - high or low.
  - [ ] Can show latest data, if the network disconnects.
 
