@@ -49,6 +49,16 @@ app.MapGet("/telemetry/lastWeek", async (IInfluxDBService influxDBService) =>
     return await influxDBService.GetMeasurementsLatestWeek();
 });
 
+app.MapGet("/telemetry/livingRoom", async (IInfluxDBService influxDBService) =>
+{
+    return await influxDBService.GetLivingRoomMeasurements();
+});
+
+app.MapGet("/telemetry/kitchen", async (IInfluxDBService influxDBService) =>
+{
+    return await influxDBService.GetKitchenMeasurements();
+});
+
 app.MapPost("/servo", async (IMqttClientPublish publishClient, [FromBody]string message) =>
 {
     await publishClient.PublishMessage(message);

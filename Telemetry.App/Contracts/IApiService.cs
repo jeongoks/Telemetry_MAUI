@@ -16,5 +16,7 @@ namespace Telemetry.App.Contracts
         Task<ObservableCollection<Measurement>> GetMeasurementsLatestDay();
         Task<ObservableCollection<Measurement>> GetMeasurementsLatestHour();
         Task<ObservableCollection<Measurement>> GetMeasurementsLatestWeek();
+        Task<ObservableCollection<Measurement>> GetLivingRoomMeasurements();
+        Task<ObservableCollection<Measurement>> GetKitchenMeasurements();
     }
 }

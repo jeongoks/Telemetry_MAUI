@@ -170,5 +170,55 @@ namespace Telemetry.App.Services
             }
             return false;
         }
+
+        public async Task<ObservableCollection<Measurement>> GetLivingRoomMeasurements()
+        {
+            Uri uri = new Uri(string.Format(Constants.RestUrl, "telemetry/livingRoom"));
+
+            ObservableCollection<Measurement> measurements = new ObservableCollection<Measurement>();
+            try
+            {
+                HttpResponseMessage response = await Policy.HandleResult<HttpResponseMessage>(res => !res.IsSuccessStatusCode)
+                    .RetryAsync(10)
+                    .ExecuteAsync(async () => await _httpClient.GetAsync(uri));
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string content = await response.Content.ReadAsStringAsync();
+                    measurements = JsonSerializer.Deserialize<ObservableCollection<Measurement>>(content, _serializerOptions);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(@"\tERROR {0}", ex.Message);
+                throw;
+            }
+            return measurements;
+        }
+
+        public async Task<ObservableCollection<Measurement>> GetKitchenMeasurements()
+        {
+            Uri uri = new Uri(string.Format(Constants.RestUrl, "telemetry/kitchen"));
+
+            ObservableCollection<Measurement> measurements = new ObservableCollection<Measurement>();
+            try
+            {
+                HttpResponseMessage response = await Policy.HandleResult<HttpResponseMessage>(res => !res.IsSuccessStatusCode)
+                    .RetryAsync(10)
+                    .ExecuteAsync(async () => await _httpClient.GetAsync(uri));
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string content = await response.Content.ReadAsStringAsync();
+                    measurements = JsonSerializer.Deserialize<ObservableCollection<Measurement>>(content, _serializerOptions);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(@"\tERROR {0}", ex.Message);
+                throw;
+            }
+            return measurements;
+        }
     }
 }

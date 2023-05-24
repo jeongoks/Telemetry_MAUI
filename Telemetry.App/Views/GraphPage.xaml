@@ -11,26 +11,35 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="10"/>
                 <RowDefinition Height="50"/>
+                <RowDefinition Height="10"/>
                 <RowDefinition Height="20"/>
             </Grid.RowDefinitions>
 
             <VerticalStackLayout x:DataType="viewModels:ChartViewModel">
-                <lvc:CartesianChart Grid.Row="0" MaximumHeightRequest="300" Margin="5" Series="{Binding Series}"                                    
+                <lvc:CartesianChart Grid.Row="0" MaximumHeightRequest="280" Margin="5" Series="{Binding Series}"                                    
                                     XAxes="{Binding XAxis}" YAxes="{Binding YAxis}"
                                     TooltipPosition="Center" TooltipTextSize="35"
                                     LegendPosition="Top" LegendTextPaint="{Binding LegendTextPaint}" LegendTextSize="35"></lvc:CartesianChart>
 
                 <Label Grid.Row="1" Text="Filter options" Margin="0,30,0,0"
-                       HorizontalOptions="Center" FontSize="18" FontAttributes="Bold" />
+                       HorizontalOptions="Center" FontSize="18" FontAttributes="Bold" IsVisible="{Binding IsVisible}" />
 
-                <StackLayout Grid.Row="2" Orientation="Horizontal" HorizontalOptions="Center">
+                <StackLayout Grid.Row="2" Orientation="Horizontal" HorizontalOptions="Center" IsVisible="{Binding IsVisible}">
                     <Button Margin="6" Command="{Binding LatestHourCommand}" Text="Latest hour"/>
                     <Button Margin="6" Command="{Binding LatestDayCommand}" Text="Latest day" />
                     <Button Margin="6" Command="{Binding LatestWeekCommand}" Text="Latest week" />
                 </StackLayout>
 
-                <StackLayout Grid.Row="3" Orientation="Horizontal" HorizontalOptions="Center">
+                <Label Grid.Row="3" Text="Select room" Margin="0,30,0,20"
+                       HorizontalOptions="Center" FontSize="18" FontAttributes="Bold" />
 
+                <StackLayout Grid.Row="4" Orientation="Horizontal" HorizontalOptions="Center">
+                    <Frame WidthRequest="330">
+                        <Picker Title="Select room"
+                                HorizontalTextAlignment="Center"
+                                ItemsSource="{Binding Locations}"                            
+                                SelectedIndex="{Binding SelectedIndex}"/>
+                    </Frame>                    
                 </StackLayout>
             </VerticalStackLayout>
 

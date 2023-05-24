@@ -57,7 +57,7 @@
                         </Grid>
                         <Label Grid.Row="3" 
                                HorizontalOptions="Center"
-                               Text="{Binding OverviewMeasurement.Time}" 
+                               Text="{Binding ShownTime}" 
                                FontSize="13"/>
                     </Grid>
                 </Frame>

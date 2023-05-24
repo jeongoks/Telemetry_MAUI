@@ -76,6 +76,15 @@ namespace Telemetry.App.ViewModels
         [ObservableProperty]
         private ObservableCollection<Measurement> measurements;
 
+        [ObservableProperty]
+        private string[] _locations = new string[] { "All", "Kitchen", "Living room" };
+
+        [ObservableProperty]
+        private bool _isVisible = true;
+
+        [ObservableProperty]
+        private int _selectedIndex;
+
         public SolidColorPaint LegendTextPaint { get; set; } = new SolidColorPaint
         {
             Color = SKColors.Black  
@@ -93,7 +102,7 @@ namespace Telemetry.App.ViewModels
             double[] lastTemperature = Measurements.Select(x => x.Temperature).ToArray();
             Series[1].Values = lastTemperature;
 
-            string[] labels = Measurements.Select(x => x.Time.AddHours(2).ToLocalTime().ToString("HH:mm")).ToArray();
+            string[] labels = Measurements.Select(x => x.Time.ToLocalTime().ToString("HH:mm")).ToArray();
 
             XAxis = new Axis[]
             {
@@ -122,7 +131,7 @@ namespace Telemetry.App.ViewModels
             double[] lastTemperature = Measurements.Select(x => x.Temperature).ToArray();
             Series[1].Values = lastTemperature;
 
-            string[] labels = Measurements.Select(x => x.Time.AddHours(2).ToLocalTime().ToString("HH:mm")).ToArray();
+            string[] labels = Measurements.Select(x => x.Time.ToLocalTime().ToString("HH:mm")).ToArray();
 
             XAxis = new Axis[]
             {
@@ -151,7 +160,7 @@ namespace Telemetry.App.ViewModels
             double[] lastTemperature = Measurements.Select(x => x.Temperature).ToArray();
             Series[1].Values = lastTemperature;
 
-            string[] labels = Measurements.Select(x => x.Time.AddHours(2).DayOfWeek.ToString()).ToArray();
+            string[] labels = Measurements.Select(x => x.Time.ToLocalTime().DayOfWeek.ToString()).ToArray();
 
             XAxis = new Axis[]
             {
@@ -180,7 +189,59 @@ namespace Telemetry.App.ViewModels
             double[] lastTemperature = Measurements.Select(x => x.Temperature).ToArray();
             Series[1].Values = lastTemperature;
 
-            string[] labels = Measurements.Select(x => x.Time.AddHours(2).DayOfWeek.ToString()).ToArray();
+            string[] labels = Measurements.Select(x => x.Time.ToLocalTime().DayOfWeek.ToString()).ToArray();
+
+            XAxis = new Axis[]
+            {
+                new Axis
+                {
+                    Name = "Time stamps",
+                    NamePaint = new SolidColorPaint(SKColors.Black),
+                    NameTextSize = 40,
+                    Labels = labels,
+                    LabelsRotation = 60,
+                    LabelsPaint = new SolidColorPaint(SKColors.Coral),
+                    TextSize= 35
+                }
+            };
+        }
+
+        async partial void OnSelectedIndexChanged(int value)
+        {
+            if (Connectivity.NetworkAccess != NetworkAccess.Internet) { return; }
+
+            if (value == 0)
+            {                
+                Measurements = await _apiService.GetAllMeasurements();
+                double[] roomHumidity = Measurements.Select(x => x.Humidity).ToArray();
+                Series[0].Values = roomHumidity;
+
+                double[] roomTemperature = Measurements.Select(x => x.Temperature).ToArray();
+                Series[1].Values = roomTemperature;
+                IsVisible = true;
+            }
+            else if(value == 1)
+            {
+                Measurements = await _apiService.GetKitchenMeasurements();
+                double[] roomHumidity = Measurements.Select(x => x.Humidity).ToArray();
+                Series[0].Values = roomHumidity;
+
+                double[] roomTemperature = measurements.Select(x => x.Temperature).ToArray();
+                Series[1].Values = roomTemperature;
+                IsVisible = false;
+            }
+            else if( value == 2)
+            {
+                Measurements = await _apiService.GetLivingRoomMeasurements();
+                double[] roomHumidity = Measurements.Select(x => x.Humidity).ToArray();
+                Series[0].Values = roomHumidity;
+
+                double[] roomTemperature = Measurements.Select(x => x.Temperature).ToArray();
+                Series[1].Values = roomTemperature;
+                IsVisible = false;
+            }
+
+            string[] labels = Measurements.Select(x => x.Time.ToLocalTime().DayOfWeek.ToString()).ToArray();
 
             XAxis = new Axis[]
             {

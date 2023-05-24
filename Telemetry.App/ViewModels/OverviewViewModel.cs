@@ -23,6 +23,9 @@ namespace Telemetry.App.ViewModels
         private Measurement _overviewMeasurement;
 
         [ObservableProperty]
+        private DateTime _shownTime;
+
+        [ObservableProperty]
         private bool _isToggled;
 
         [RelayCommand]
@@ -31,6 +34,7 @@ namespace Telemetry.App.ViewModels
             if (Connectivity.NetworkAccess != NetworkAccess.Internet) { return; }
 
             OverviewMeasurement = await _apiService.GetLatestMeasurement();
+            ShownTime = OverviewMeasurement.Time.ToLocalTime();
         }
 
         async partial void OnIsToggledChanged(bool value)

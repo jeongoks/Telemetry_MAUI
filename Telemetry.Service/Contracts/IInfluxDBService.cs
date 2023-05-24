@@ -14,6 +14,8 @@ namespace Telemetry.Service.Contracts
         Task<List<Measurement>> GetMeasurementsLatestHour();
         Task<List<Measurement>> GetMeasurementsLatestDay();
         Task<List<Measurement>> GetMeasurementsLatestWeek();
+        Task<List<Measurement>> GetLivingRoomMeasurements();
+        Task<List<Measurement>> GetKitchenMeasurements();
         Task WriteToDB(Measurement measurements, string topic);
     }
 }
