@@ -18,14 +18,16 @@ This is a diagram to give an overview of how the whole solution speaks together 
 | `Arduino` | [Arduino MKR WiFi 1010](https://store.arduino.cc/products/arduino-mkr-wifi-1010)                            | C++      |
 
 ## API Overview and Endpoints
-| API                      | Description                                 | Request body | Response body                |
-|--------------------------|---------------------------------------------|--------------|------------------------------|
-| `GET/telemetries`        | Get **all** Measurement items               | None         | Array of Measurement items   |
-| `POST/servo`             | Write to a servo                            | string       | None                         |
-| `GET/latestTelemetry`    | Get the latest Measurement reading          | None         | Single object of Measurement |
-| `GET/telemetry/lastHour` | Get **all** Measurement items the last hour | None         | Array of Measurement items   |
-| `GET/telemetry/lastDay`  | Get **all** Measurement items the last day  | None         | Array of Measurement items   |
-| `GET/telemetry/lastWeek` | Get **all** Measurement items the last week | None         | Array of Measurement items   |
+| API                        | Description                                      | Request body | Response body                |
+|----------------------------|--------------------------------------------------|--------------|------------------------------|
+| `GET/telemetries`          | Get **all** Measurement items                    | None         | Array of Measurement items   |
+| `POST/servo`               | Write to a servo                                 | string       | None                         |
+| `GET/latestTelemetry`      | Get the latest Measurement reading               | None         | Single object of Measurement |
+| `GET/telemetry/lastHour`   | Get **all** Measurement items the last hour      | None         | Array of Measurement items   |
+| `GET/telemetry/lastDay`    | Get **all** Measurement items the last day       | None         | Array of Measurement items   |
+| `GET/telemetry/lastWeek`   | Get **all** Measurement items the last week      | None         | Array of Measurement items   |
+| `GET/telemetry/livingRoom` | Get **all** Measurement items in the Living room | None         | Array of Measurement items   |
+| `GET/telemetry/kitchen`    | Get **all** Measurement items in the Kitchen     | None         | Array of Measurement items   |
 
 ## MQTT Topics
 <table>
