@@ -102,7 +102,7 @@ namespace Telemetry.App.ViewModels
             double[] lastTemperature = Measurements.Select(x => x.Temperature).ToArray();
             Series[1].Values = lastTemperature;
 
-            string[] labels = Measurements.Select(x => x.Time.AddHours(2).ToLocalTime().ToString("HH:mm")).ToArray();
+            string[] labels = Measurements.Select(x => x.Time.ToLocalTime().ToString("HH:mm")).ToArray();
 
             XAxis = new Axis[]
             {
@@ -131,7 +131,7 @@ namespace Telemetry.App.ViewModels
             double[] lastTemperature = Measurements.Select(x => x.Temperature).ToArray();
             Series[1].Values = lastTemperature;
 
-            string[] labels = Measurements.Select(x => x.Time.AddHours(2).ToLocalTime().ToString("HH:mm")).ToArray();
+            string[] labels = Measurements.Select(x => x.Time.ToLocalTime().ToString("HH:mm")).ToArray();
 
             XAxis = new Axis[]
             {
@@ -160,7 +160,7 @@ namespace Telemetry.App.ViewModels
             double[] lastTemperature = Measurements.Select(x => x.Temperature).ToArray();
             Series[1].Values = lastTemperature;
 
-            string[] labels = Measurements.Select(x => x.Time.AddHours(2).DayOfWeek.ToString()).ToArray();
+            string[] labels = Measurements.Select(x => x.Time.ToLocalTime().DayOfWeek.ToString()).ToArray();
 
             XAxis = new Axis[]
             {
@@ -189,7 +189,7 @@ namespace Telemetry.App.ViewModels
             double[] lastTemperature = Measurements.Select(x => x.Temperature).ToArray();
             Series[1].Values = lastTemperature;
 
-            string[] labels = Measurements.Select(x => x.Time.AddHours(2).DayOfWeek.ToString()).ToArray();
+            string[] labels = Measurements.Select(x => x.Time.ToLocalTime().DayOfWeek.ToString()).ToArray();
 
             XAxis = new Axis[]
             {
@@ -241,7 +241,7 @@ namespace Telemetry.App.ViewModels
                 IsVisible = false;
             }
 
-            string[] labels = Measurements.Select(x => x.Time.AddHours(2).DayOfWeek.ToString()).ToArray();
+            string[] labels = Measurements.Select(x => x.Time.ToLocalTime().DayOfWeek.ToString()).ToArray();
 
             XAxis = new Axis[]
             {

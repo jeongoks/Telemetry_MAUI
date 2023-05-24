@@ -59,7 +59,7 @@ namespace Telemetry.Service.Services
                         .OrderByDescending(x => x.Time)
                         .ToList();
 
-            List<Measurement> measurements = query.Where(i => i.Time.AddHours(2) > DateTime.Now.AddHours(-24)).ToList();
+            List<Measurement> measurements = query.Where(i => i.Time.ToLocalTime() > DateTime.Now.AddHours(-24)).ToList();
 
             return measurements;
         }
@@ -101,7 +101,7 @@ namespace Telemetry.Service.Services
                         .OrderByDescending(x => x.Time)                          
                         .ToList();
 
-            List<Measurement> measurements = query.Where(i => i.Time.AddHours(2) > DateTime.Now.AddMinutes(-60)).ToList();
+            List<Measurement> measurements = query.Where(i => i.Time.ToLocalTime() > DateTime.Now.AddMinutes(-60)).ToList();
 
             return measurements;
         }
@@ -115,7 +115,7 @@ namespace Telemetry.Service.Services
                         .OrderByDescending(x => x.Time)
                         .ToList();
 
-            List<Measurement> measurements = query.Where(i => i.Time.AddHours(2) > DateTime.Now.AddDays(-7)).ToList();
+            List<Measurement> measurements = query.Where(i => i.Time.ToLocalTime() > DateTime.Now.AddDays(-7)).ToList();
 
             return measurements;
         }
