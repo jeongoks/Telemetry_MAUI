@@ -8,7 +8,7 @@ The readings come from a previous project, where we have made a `Web API` which 
 ## Architecture diagram
 This is a diagram to give an overview of how the whole solution speaks together and where we're collecting our data from and what device is giving us the wanted data for the graphs on the mobile application.
 
-![](./Images/architecture-diagram.png)
+![](./Images/architecture_diagram.png)
 
 ## Projects
 | Project   | Platform                                                                                                    | Language |
