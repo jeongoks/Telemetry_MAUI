@@ -190,6 +190,8 @@ namespace Telemetry.App.ViewModels
             Series[1].Values = lastTemperature;
 
             string[] labels = Measurements.Select(x => x.Time.ToLocalTime().DayOfWeek.ToString()).ToArray();
+            IsVisible = true;
+            //Locations = new string[] { "All", "Kitchen", "Living room" };
 
             XAxis = new Axis[]
             {
