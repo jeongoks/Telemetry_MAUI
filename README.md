@@ -10,7 +10,13 @@ An extension to the project, is that we now also wish to display the same data, 
 ## Architecture diagram
 This is a diagram to give an overview of how the whole solution speaks together and where we're collecting our data from and what device is giving us the wanted data for the graphs on the mobile application.
 
-![](./Images/architecture_diagram.png)
+So, we have our `2 applications` which will be the user interfaces of our entire solution. They will talk through a `API gateway` to retrieve and push data down through the solution.
+
+The `API gateway` can send several `GET` requests down to our `Influx database` to retrieve `Measurement` data. This data is coming through a `MQTTNet Client` which is `subscribed` to the topic `telemetry/home/#` to establish a connection with a `HiveMQ Broker` to recieve messages getting send to that specific topic. The `HiveMQ Broker` is getting messages from a `Arduino board` which has a `DHT11` sensor reading and puclishing every 30 seconds on new `Temperature` and `Humidity` readings through the topic `telemetry/home/{location}`.
+
+The `API gateway` also have
+
+![](./Images/architecture-diagram.png)
 
 ## Projects
 | Project   | Platform                                                                                                    | Language |
