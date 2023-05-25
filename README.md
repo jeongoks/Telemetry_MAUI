@@ -16,6 +16,7 @@ This is a diagram to give an overview of how the whole solution speaks together 
 | `App`     | [.NET MAUI](https://learn.microsoft.com/en-us/dotnet/maui/what-is-maui)                                     | C#       |
 | `API`     | [.NET RESTApi](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis?view=aspnetcore-7.0) | C#       |
 | `Arduino` | [Arduino MKR WiFi 1010](https://store.arduino.cc/products/arduino-mkr-wifi-1010)                            | C++      |
+| `Web`     | [Blazor server-side](https://learn.microsoft.com/en-us/aspnet/core/blazor/?view=aspnetcore-7.0)             | C#       |
 
 ## API Overview and Endpoints
 | API                        | Description                                      | Request body | Response body                |
@@ -112,6 +113,7 @@ This is a diagram to give an overview of how the whole solution speaks together 
  - [x] The App needs to be built upon MVVM design pattern and contain Dependency injection.
  - [ ] Is robust toward an unstable internet connection.
  - [x] The project is turned in through a Github repository, with a good README.md file, which is presented for the class and teacher.
+ - [ ] Make an equivalent Blazor server side application to display the same things.
 
 
 ## Optional requirements
