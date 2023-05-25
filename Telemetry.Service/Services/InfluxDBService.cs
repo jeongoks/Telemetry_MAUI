@@ -22,6 +22,21 @@ namespace Telemetry.Service.Services
             _configuration = configuration;
         }
 
+        public async Task<Measurement> GetLatestMeasurement()
+        {
+            using var client = new InfluxDBClient(_configuration["_INFLUXDB:_URL"], _configuration["_INFLUXDB:_TOKEN"]);
+            var queryApi = client.GetQueryApiSync();
+
+            var query = InfluxDBQueryable<Measurement>.Queryable(_configuration["_INFLUXDB:_BUCKET"], _configuration["_INFLUXDB:_ORGANIZATION"], queryApi)
+                        .ToList()        
+                        .OrderByDescending(i => i.Time)
+                        .Take(1);
+
+            Measurement measurement = query.FirstOrDefault(); 
+
+            return measurement;
+        }
+
         public async Task<List<Measurement>> GetMeasurements()
         {
             using var client = new InfluxDBClient(_configuration["_INFLUXDB:_URL"], _configuration["_INFLUXDB:_TOKEN"]);
@@ -31,6 +46,76 @@ namespace Telemetry.Service.Services
                         select s;
 
             List<Measurement> measurements = query.ToList();
+
+            return measurements;
+        }
+
+        public async Task<List<Measurement>> GetMeasurementsLatestDay()
+        {
+            using var client = new InfluxDBClient(_configuration["_INFLUXDB:_URL"], _configuration["_INFLUXDB:_TOKEN"]);
+            var queryApi = client.GetQueryApiSync();
+
+            var query = InfluxDBQueryable<Measurement>.Queryable(_configuration["_INFLUXDB:_BUCKET"], _configuration["_INFLUXDB:_ORGANIZATION"], queryApi)
+                        .OrderByDescending(x => x.Time)
+                        .ToList();
+
+            List<Measurement> measurements = query.Where(i => i.Time.ToLocalTime() > DateTime.Now.AddHours(-24)).ToList();
+
+            return measurements;
+        }
+
+        public async Task<List<Measurement>> GetLivingRoomMeasurements()
+        {
+            using var client = new InfluxDBClient(_configuration["_INFLUXDB:_URL"], _configuration["_INFLUXDB:_TOKEN"]);
+            var queryApi = client.GetQueryApiSync();
+
+            var query = InfluxDBQueryable<Measurement>.Queryable(_configuration["_INFLUXDB:_BUCKET"], _configuration["_INFLUXDB:_ORGANIZATION"], queryApi)
+                        .OrderByDescending(x => x.Time)
+                        .ToList();
+
+            List<Measurement> measurements = query.Where(i => i.Location == "living-room").ToList();
+
+            return measurements;
+        }
+
+        public async Task<List<Measurement>> GetKitchenMeasurements()
+        {
+            using var client = new InfluxDBClient(_configuration["_INFLUXDB:_URL"], _configuration["_INFLUXDB:_TOKEN"]);
+            var queryApi = client.GetQueryApiSync();
+
+            var query = InfluxDBQueryable<Measurement>.Queryable(_configuration["_INFLUXDB:_BUCKET"], _configuration["_INFLUXDB:_ORGANIZATION"], queryApi)
+                        .OrderByDescending(x => x.Time)
+                        .ToList();
+
+            List<Measurement> measurements = query.Where(i => i.Location == "kitchen").ToList();
+
+            return measurements;
+        }
+
+        public async Task<List<Measurement>> GetMeasurementsLatestHour()
+        {
+            using var client = new InfluxDBClient(_configuration["_INFLUXDB:_URL"], _configuration["_INFLUXDB:_TOKEN"]);
+            var queryApi = client.GetQueryApiSync();
+
+            var query = InfluxDBQueryable<Measurement>.Queryable(_configuration["_INFLUXDB:_BUCKET"], _configuration["_INFLUXDB:_ORGANIZATION"], queryApi)
+                        .OrderByDescending(x => x.Time)                          
+                        .ToList();
+
+            List<Measurement> measurements = query.Where(i => i.Time.ToLocalTime() > DateTime.Now.AddMinutes(-60)).ToList();
+
+            return measurements;
+        }
+
+        public async Task<List<Measurement>> GetMeasurementsLatestWeek()
+        {
+            using var client = new InfluxDBClient(_configuration["_INFLUXDB:_URL"], _configuration["_INFLUXDB:_TOKEN"]);
+            var queryApi = client.GetQueryApiSync();
+
+            var query = InfluxDBQueryable<Measurement>.Queryable(_configuration["_INFLUXDB:_BUCKET"], _configuration["_INFLUXDB:_ORGANIZATION"], queryApi)
+                        .OrderByDescending(x => x.Time)
+                        .ToList();
+
+            List<Measurement> measurements = query.Where(i => i.Time.ToLocalTime() > DateTime.Now.AddDays(-7)).ToList();
 
             return measurements;
         }

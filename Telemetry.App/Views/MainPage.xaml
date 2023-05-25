@@ -1,41 +1,86 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Telemetry.App.Views.MainPage">
-
+             x:Class="Telemetry.App.Views.MainPage"
+             xmlns:viewModels="clr-namespace:Telemetry.App.ViewModels">
     <ScrollView>
-        <VerticalStackLayout
-            Spacing="25"
-            Padding="30,0"
-            VerticalOptions="Center">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
 
-            <Image
-                Source="dotnet_bot.png"
-                SemanticProperties.Description="Cute dot net bot waving hi to you!"
-                HeightRequest="200"
-                HorizontalOptions="Center" />
+            <VerticalStackLayout x:DataType="viewModels:OverviewViewModel">
+                <Frame Margin="10">
+                    <Grid RowDefinitions="*, Auto, Auto, Auto">
+                        <Label HorizontalOptions="Center" 
+                               FontAttributes="Bold"
+                               Text="Latest temperature reading" 
+                               FontSize="20" />                        
+                        
+                        <Grid Grid.Row="2" 
+                              RowDefinitions="Auto, Auto, Auto, Auto" 
+                              ColumnDefinitions="*, *" 
+                              Margin="0,10,0,10">
 
-            <Label
-                Text="Hello, World!"
-                SemanticProperties.HeadingLevel="Level1"
-                FontSize="32"
-                HorizontalOptions="Center" />
+                            <Label HorizontalOptions="EndAndExpand" 
+                                   Text="Room: " 
+                                   Margin="5"
+                                   FontAttributes="Bold"
+                                   Grid.Column="0"
+                                   FontSize="15" />
+                            <Label HorizontalOptions="StartAndExpand"
+                                   Grid.Column="1"
+                                   Text="{Binding OverviewMeasurement.Location}" 
+                                   Margin="5"
+                                   FontSize="15" />
+                            <Label Grid.Column="0" 
+                                   Grid.Row="1"
+                                   HorizontalOptions="Center"
+                                   Text="Temperature:" 
+                                   FontSize="18"/>                            
+                            <Label Grid.Column="1" 
+                                   Grid.Row="1"
+                                   HorizontalOptions="Center"
+                                   Text="Humidity:" 
+                                   FontSize="18"/>                            
+                            <Label Grid.Row="2" 
+                                   Grid.Column="0" 
+                                   HorizontalOptions="Center"
+                                   Text="{Binding OverviewMeasurement.Temperature, StringFormat='{0:F1}°C'}" 
+                                   FontSize="18"/>
+                            <Label Grid.Row="2" 
+                                   Grid.Column="1" 
+                                   HorizontalOptions="Center"
+                                   Text="{Binding OverviewMeasurement.Humidity, StringFormat='{0}%'}" 
+                                   FontSize="18"/>
+                        </Grid>
+                        <Label Grid.Row="3" 
+                               HorizontalOptions="Center"
+                               Text="{Binding ShownTime}" 
+                               FontSize="13"/>
+                    </Grid>
+                </Frame>
 
-            <Label
-                Text="Welcome to .NET Multi-platform App UI"
-                SemanticProperties.HeadingLevel="Level2"
-                SemanticProperties.Description="Welcome to dot net Multi platform App U I"
-                FontSize="18"
-                HorizontalOptions="Center" />
+                <Frame Margin="10">
+                    <Grid ColumnDefinitions="*,*, *">
+                        <Image Grid.Column="0"
+                               Source="../Images/flashlight.svg" />
+                        <Label Grid.Column="1"
+                               VerticalTextAlignment="Center"
+                               FontSize="20"
+                               Text="LED Control"
+                               FontAttributes="Bold"/>
 
-            <Button
-                x:Name="CounterBtn"
-                Text="Click me"
-                SemanticProperties.Hint="Counts the number of times you click"
-                Clicked="OnCounterClicked"
-                HorizontalOptions="Center" />
+                        <Switch Grid.Column="2"
+                                OnColor="DarkSalmon"
+                                ThumbColor="Coral"
+                                IsToggled="{Binding IsToggled}" />
+                    </Grid>
+                </Frame>
+                
+            </VerticalStackLayout>
 
-        </VerticalStackLayout>
+        </Grid>
     </ScrollView>
-
 </ContentPage>

@@ -6,9 +6,15 @@
     xmlns:local="clr-namespace:Telemetry.App.Views"
     Shell.FlyoutBehavior="Disabled">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <TabBar>
+        <Tab Title="Overview"
+             Icon="../Images/home.svg">
+            <ShellContent Title="Overview" ContentTemplate="{DataTemplate local:MainPage}" Route="MainPage" />
+        </Tab>
+        <Tab Title="Graphs"
+             Icon="../Images/graph.svg">
+            <ShellContent Title="Telemetry graphs" ContentTemplate="{DataTemplate local:GraphPage}" Route="GraphPage" />
+        </Tab>
+    </TabBar>
 
 </Shell>

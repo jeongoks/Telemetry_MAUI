@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using Telemetry.Service.Contracts;
 using Telemetry.Service.Services;
 
@@ -28,9 +29,39 @@ app.MapGet("/telemetries", async (IInfluxDBService influxDBService) =>
     return await influxDBService.GetMeasurements();
 });
 
-app.MapPost("/servo", async (IMqttClientPublish publishClient, string message, string location) =>
+app.MapGet("/latestTelemetry", async (IInfluxDBService influxDBService) =>
 {
-    await publishClient.PublishMessage(message, location);
+    return await influxDBService.GetLatestMeasurement();
+});
+
+app.MapGet("/telemetry/lastHour", async (IInfluxDBService influxDBService) =>
+{
+    return await influxDBService.GetMeasurementsLatestHour();
+});
+
+app.MapGet("/telemetry/lastDay", async (IInfluxDBService influxDBService) =>
+{
+    return await influxDBService.GetMeasurementsLatestDay();
+});
+
+app.MapGet("/telemetry/lastWeek", async (IInfluxDBService influxDBService) =>
+{
+    return await influxDBService.GetMeasurementsLatestWeek();
+});
+
+app.MapGet("/telemetry/livingRoom", async (IInfluxDBService influxDBService) =>
+{
+    return await influxDBService.GetLivingRoomMeasurements();
+});
+
+app.MapGet("/telemetry/kitchen", async (IInfluxDBService influxDBService) =>
+{
+    return await influxDBService.GetKitchenMeasurements();
+});
+
+app.MapPost("/servo", async (IMqttClientPublish publishClient, [FromBody]string message) =>
+{
+    await publishClient.PublishMessage(message);
 });
 
 app.Run();
