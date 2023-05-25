@@ -5,6 +5,8 @@ This project is a school assignment, where we wish to display telemetry data, su
 
 The readings come from a previous project, where we have made a `Web API` which stores and also gets the data from a Database.
 
+An extension to the project, is that we now also wish to display the same data, just on a web application - which will be made in a `Blazor Server` application. 
+
 ## Architecture diagram
 This is a diagram to give an overview of how the whole solution speaks together and where we're collecting our data from and what device is giving us the wanted data for the graphs on the mobile application.
 
