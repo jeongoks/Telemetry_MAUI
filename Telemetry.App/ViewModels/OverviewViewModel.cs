@@ -2,11 +2,10 @@
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Telemetry.App.Contracts;
+using Telemetry.App.Extensions;
 using Telemetry.App.Models;
+using Telemetry.Service.Contracts;
+using Telemetry.Service.Models;
 
 namespace Telemetry.App.ViewModels
 {
@@ -20,7 +19,7 @@ namespace Telemetry.App.ViewModels
         }
 
         [ObservableProperty]
-        private Measurement _overviewMeasurement;
+        private MeasurementDTO _overviewMeasurement;
 
         [ObservableProperty]
         private DateTime _shownTime;
@@ -33,7 +32,8 @@ namespace Telemetry.App.ViewModels
         {
             if (Connectivity.NetworkAccess != NetworkAccess.Internet) { return; }
 
-            OverviewMeasurement = await _apiService.GetLatestMeasurement();
+            Measurement tempMeasurement = await _apiService.GetLatestMeasurement();
+            OverviewMeasurement = tempMeasurement.ToDTO();
             ShownTime = OverviewMeasurement.Time.ToLocalTime();
         }
 

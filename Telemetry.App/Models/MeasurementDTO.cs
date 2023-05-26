@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Telemetry.App.Models
 {
-    public class Measurement
+    public class MeasurementDTO
     {
         public string Location { get; set; }
         public double Temperature { get; set; }
