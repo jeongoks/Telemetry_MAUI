@@ -1,9 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
 using SkiaSharp.Views.Maui.Controls.Hosting;
-using Telemetry.App.Contracts;
-using Telemetry.App.Services;
+using Telemetry.App.Extensions;
 using Telemetry.App.ViewModels;
 using Telemetry.App.Views;
+using Telemetry.Service.Contracts;
+using Telemetry.Service.Services;
 
 namespace Telemetry.App;
 

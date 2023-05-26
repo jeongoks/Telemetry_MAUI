@@ -3,10 +3,10 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Net.Http.Json;
 using System.Text.Json;
-using Telemetry.App.Contracts;
-using Telemetry.App.Models;
+using Telemetry.Service.Contracts;
+using Telemetry.Service.Models;
 
-namespace Telemetry.App.Services
+namespace Telemetry.Service.Services
 {
     public class ApiService : IApiService
     {

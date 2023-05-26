@@ -4,9 +4,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Telemetry.App.Models;
+using Telemetry.Service.Models;
 
-namespace Telemetry.App.Contracts
+namespace Telemetry.Service.Contracts
 {
     public interface IApiService
     {
