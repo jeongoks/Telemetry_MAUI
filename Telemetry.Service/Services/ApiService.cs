@@ -30,10 +30,7 @@ namespace Telemetry.Service.Services
             Measurement measurement = new Measurement();
             try
             {
-                HttpResponseMessage response = await Policy.HandleResult<HttpResponseMessage>(res => !res.IsSuccessStatusCode)
-                    .RetryAsync(10)
-                    .ExecuteAsync(async () => await _httpClient.GetAsync(uri));
-
+                HttpResponseMessage response = await _httpClient.GetAsync(uri);
                 if (response.IsSuccessStatusCode)
                 {
                     string content = await response.Content.ReadAsStringAsync();
@@ -55,10 +52,7 @@ namespace Telemetry.Service.Services
             List<Measurement> measurements = new List<Measurement>();
             try
             {
-                HttpResponseMessage response = await Policy.HandleResult<HttpResponseMessage>(res => !res.IsSuccessStatusCode)
-                    .RetryAsync(10)
-                    .ExecuteAsync(async () => await _httpClient.GetAsync(uri));
-
+                HttpResponseMessage response = await _httpClient.GetAsync(uri);
                 if (response.IsSuccessStatusCode)
                 {
                     string content = await response.Content.ReadAsStringAsync();
@@ -80,10 +74,7 @@ namespace Telemetry.Service.Services
             List<Measurement> measurements = new List<Measurement>();
             try
             {
-                HttpResponseMessage response = await Policy.HandleResult<HttpResponseMessage>(res => !res.IsSuccessStatusCode)
-                    .RetryAsync(10)
-                    .ExecuteAsync(async () => await _httpClient.GetAsync(uri));
-
+                HttpResponseMessage response = await _httpClient.GetAsync(uri);
                 if (response.IsSuccessStatusCode)
                 {
                     string content = await response.Content.ReadAsStringAsync();
@@ -105,10 +96,7 @@ namespace Telemetry.Service.Services
             List<Measurement> measurements = new List<Measurement>();
             try
             {
-                HttpResponseMessage response = await Policy.HandleResult<HttpResponseMessage>(res => !res.IsSuccessStatusCode)
-                    .RetryAsync(10)
-                    .ExecuteAsync(async () => await _httpClient.GetAsync(uri));
-
+                HttpResponseMessage response = await _httpClient.GetAsync(uri);
                 if (response.IsSuccessStatusCode)
                 {
                     string content = await response.Content.ReadAsStringAsync();
@@ -130,10 +118,7 @@ namespace Telemetry.Service.Services
             List<Measurement> measurements = new List<Measurement>();
             try
             {
-                HttpResponseMessage response = await Policy.HandleResult<HttpResponseMessage>(res => !res.IsSuccessStatusCode)
-                    .RetryAsync(10)
-                    .ExecuteAsync(async () => await _httpClient.GetAsync(uri));
-
+                HttpResponseMessage response = await _httpClient.GetAsync(uri);
                 if (response.IsSuccessStatusCode)
                 {
                     string content = await response.Content.ReadAsStringAsync();
@@ -153,9 +138,7 @@ namespace Telemetry.Service.Services
             Uri uri = new Uri(string.Format(Constants.RestUrl, "servo"));
             try
             {
-                HttpResponseMessage response = await Policy.HandleResult<HttpResponseMessage>(res => !res.IsSuccessStatusCode)
-                    .RetryAsync(10)
-                    .ExecuteAsync(async () => await _httpClient.PostAsJsonAsync(uri, isToggled));
+                HttpResponseMessage response = await _httpClient.PostAsJsonAsync(uri, isToggled);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -178,10 +161,7 @@ namespace Telemetry.Service.Services
             List<Measurement> measurements = new List<Measurement>();
             try
             {
-                HttpResponseMessage response = await Policy.HandleResult<HttpResponseMessage>(res => !res.IsSuccessStatusCode)
-                    .RetryAsync(10)
-                    .ExecuteAsync(async () => await _httpClient.GetAsync(uri));
-
+                HttpResponseMessage response = await _httpClient.GetAsync(uri);
                 if (response.IsSuccessStatusCode)
                 {
                     string content = await response.Content.ReadAsStringAsync();
@@ -203,10 +183,7 @@ namespace Telemetry.Service.Services
             List<Measurement> measurements = new List<Measurement>();
             try
             {
-                HttpResponseMessage response = await Policy.HandleResult<HttpResponseMessage>(res => !res.IsSuccessStatusCode)
-                    .RetryAsync(10)
-                    .ExecuteAsync(async () => await _httpClient.GetAsync(uri));
-
+                HttpResponseMessage response = await _httpClient.GetAsync(uri);
                 if (response.IsSuccessStatusCode)
                 {
                     string content = await response.Content.ReadAsStringAsync();

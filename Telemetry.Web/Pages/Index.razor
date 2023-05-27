@@ -1,4 +1,151 @@
 ﻿@page "/"
+@inject IApiService _apiSerivce;
+
 
 <PageTitle>Telemetry Graph Dashboard</PageTitle>
 
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 my-5">            
+            <RadzenText TextAlign="TextAlign.Center" TextStyle="TextStyle.DisplayH4">@Title</RadzenText>
+            <RadzenChart>
+                <RadzenLineSeries Smooth="@smooth" Data="@Measurements" CategoryProperty="Time" Title="Temperature" LineType="LineType.Solid" ValueProperty="Temperature" >
+                    <RadzenMarkers MarkerType="MarkerType.Circle" />
+                </RadzenLineSeries>
+                <RadzenLineSeries Smooth="@smooth" Data="@Measurements" CategoryProperty="Time" Title="Humidity" LineType="LineType.Solid" ValueProperty="Humidity">
+                    <RadzenMarkers MarkerType="MarkerType.Circle" />
+                </RadzenLineSeries>
+                @if (showLatestHour || showLatestDay)
+                {
+                    <RadzenCategoryAxis Padding="20" Formatter="@FormatAsHour" />
+                }
+                else if(showLatestWeek)
+                {
+                    <RadzenCategoryAxis Padding="20" Formatter="@FormatAsMonth" />
+                }
+                <RadzenValueAxis>
+                    <RadzenGridLines Visible="true" />
+                    <RadzenAxisTitle Text="Reading values" />
+                </RadzenValueAxis>
+                <RadzenLegend Position="LegendPosition.Bottom"/>
+            </RadzenChart>
+            <RadzenCard class="w-100 mb-4" Style="display: flex; align-items: center; gap: 0.5rem">
+                <RadzenCheckBox @bind-Value="@smooth" Name="smooth"></RadzenCheckBox>
+                <RadzenLabel Text="Smooth" For="smooth" Style="margin-right: 1rem;" />
+
+                <RadzenButton Click="ShowLatestHour">Latest hour</RadzenButton>
+                <RadzenButton Click="ShowLatestDay">Latest day</RadzenButton>
+                <RadzenButton Click="ShowLatestWeek">Latest week</RadzenButton>
+            </RadzenCard>
+        </div>
+    </div>
+</div>
+
+@code {
+    bool smooth = false;
+    bool showLatestHour = false;
+    bool showLatestDay = false;
+    bool showLatestWeek = false;
+
+    List<double> TempMeasurements { get; set; } = new();
+    List<double> HumidityMeasurements { get; set; } = new();
+    List<MeasurementDTO> Measurements { get; set; } = new();
+    string Title { get; set; }
+
+    string FormatAsMonth(object value)
+    {
+        if (value != null)
+        {
+            return Convert.ToDateTime(value).ToLocalTime().ToString("ddd");
+        }
+        return string.Empty;
+    }
+
+    string FormatAsHour(object value)
+    {
+        if (value != null)
+        {
+            return Convert.ToDateTime(value).ToLocalTime().ToString("hh:mm");
+        }
+        return string.Empty;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        List<Measurement> measurements = await _apiSerivce.GetAllMeasurements();
+        foreach (var measurement in measurements)
+        {
+            Measurements.Add(measurement.MapToDTO());
+        }
+        Title = "All measurements";
+        showLatestWeek = true;
+        TempMeasurements = Measurements.Select(x => x.Temperature).ToList();
+        HumidityMeasurements = Measurements.Select(x => x.Humidity).ToList();
+    }
+
+    public async Task ShowLatestHour()
+    {        
+        #region SETUP
+        showLatestHour = true;
+        showLatestDay = false;
+        showLatestWeek = false;
+
+        Measurements.Clear();
+        TempMeasurements.Clear();
+        HumidityMeasurements.Clear();
+        #endregion
+
+        List<Measurement> measurements = await _apiSerivce.GetMeasurementsLatestHour();
+        foreach (var measurement in measurements)
+        {
+            Measurements.Add(measurement.MapToDTO());
+        }
+        Title = "All measurements in the last hour";
+        TempMeasurements = Measurements.Select(x => x.Temperature).ToList();
+        HumidityMeasurements = Measurements.Select(x => x.Humidity).ToList();        
+    }
+
+    public async Task ShowLatestDay()
+    {
+        #region SETUP
+        showLatestDay = true;
+        showLatestHour = false;
+        showLatestWeek = false;
+
+        Measurements.Clear();
+        TempMeasurements.Clear();
+        HumidityMeasurements.Clear();
+        #endregion
+
+        List<Measurement> measurements = await _apiSerivce.GetMeasurementsLatestDay();
+        foreach (var measurement in measurements)
+        {
+            Measurements.Add(measurement.MapToDTO());
+        }
+        Title = "All measurements in the last day";
+        TempMeasurements = Measurements.Select(x => x.Temperature).ToList();
+        HumidityMeasurements = Measurements.Select(x => x.Humidity).ToList();
+    }
+
+    public async Task ShowLatestWeek()
+    {
+        #region SETUP
+        showLatestWeek = true;
+        showLatestDay = false;
+        showLatestHour = false;
+
+        Measurements.Clear();
+        TempMeasurements.Clear();
+        HumidityMeasurements.Clear();
+        #endregion
+
+        List<Measurement> measurements = await _apiSerivce.GetMeasurementsLatestWeek();
+        foreach (var measurement in measurements)
+        {
+            Measurements.Add(measurement.MapToDTO());
+        }
+        Title = "All measurements in the last week";
+        TempMeasurements = Measurements.Select(x => x.Temperature).ToList();
+        HumidityMeasurements = Measurements.Select(x => x.Humidity).ToList();
+    }
+}
