@@ -1,8 +1,13 @@
+using Telemetry.Service.Contracts;
+using Telemetry.Service.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+
+builder.Services.AddSingleton<IApiService, ApiService>();
 
 var app = builder.Build();
 

@@ -140,4 +140,4 @@ This is a diagram to give an overview of how the whole solution speaks together 
 | [CommunityToolkit.Mvvm](https://learn.microsoft.com/en-us/dotnet/communitytoolkit/mvvm/) | 8.2.0          |
 | [LiveChartsCore.SkiaSharpView](https://lvcharts.com/docs/maui/2.0.0-beta.710/gallery)    | 2.0.0-beta.710 |
 | [Polly](https://github.com/App-vNext/Polly)                                              | 7.2.3          |
-
+| [Radzen.Blazor](https://blazor.radzen.com/docs/)                                         | 4.11.2         |

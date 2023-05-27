@@ -48,11 +48,11 @@ namespace Telemetry.Service.Services
             return measurement;
         }
 
-        public async Task<ObservableCollection<Measurement>> GetAllMeasurements()
+        public async Task<List<Measurement>> GetAllMeasurements()
         {
             Uri uri = new Uri(string.Format(Constants.RestUrl, "telemetries"));
 
-            ObservableCollection<Measurement> measurements = new ObservableCollection<Measurement>();
+            List<Measurement> measurements = new List<Measurement>();
             try
             {
                 HttpResponseMessage response = await Policy.HandleResult<HttpResponseMessage>(res => !res.IsSuccessStatusCode)
@@ -62,7 +62,7 @@ namespace Telemetry.Service.Services
                 if (response.IsSuccessStatusCode)
                 {
                     string content = await response.Content.ReadAsStringAsync();
-                    measurements = JsonSerializer.Deserialize<ObservableCollection<Measurement>>(content, _serializerOptions);
+                    measurements = JsonSerializer.Deserialize<List<Measurement>>(content, _serializerOptions);
                 }
             }
             catch (Exception ex)
@@ -73,11 +73,11 @@ namespace Telemetry.Service.Services
             return measurements;
         }
 
-        public async Task<ObservableCollection<Measurement>> GetMeasurementsLatestDay()
+        public async Task<List<Measurement>> GetMeasurementsLatestDay()
         {
             Uri uri = new Uri(string.Format(Constants.RestUrl, "telemetry/lastDay"));
 
-            ObservableCollection<Measurement> measurements = new ObservableCollection<Measurement>();
+            List<Measurement> measurements = new List<Measurement>();
             try
             {
                 HttpResponseMessage response = await Policy.HandleResult<HttpResponseMessage>(res => !res.IsSuccessStatusCode)
@@ -87,7 +87,7 @@ namespace Telemetry.Service.Services
                 if (response.IsSuccessStatusCode)
                 {
                     string content = await response.Content.ReadAsStringAsync();
-                    measurements = JsonSerializer.Deserialize<ObservableCollection<Measurement>>(content, _serializerOptions);
+                    measurements = JsonSerializer.Deserialize<List<Measurement>>(content, _serializerOptions);
                 }
             }
             catch (Exception ex)
@@ -98,11 +98,11 @@ namespace Telemetry.Service.Services
             return measurements;
         }
 
-        public async Task<ObservableCollection<Measurement>> GetMeasurementsLatestHour()
+        public async Task<List<Measurement>> GetMeasurementsLatestHour()
         {
             Uri uri = new Uri(string.Format(Constants.RestUrl, "telemetry/lastHour"));
 
-            ObservableCollection<Measurement> measurements = new ObservableCollection<Measurement>();
+            List<Measurement> measurements = new List<Measurement>();
             try
             {
                 HttpResponseMessage response = await Policy.HandleResult<HttpResponseMessage>(res => !res.IsSuccessStatusCode)
@@ -112,7 +112,7 @@ namespace Telemetry.Service.Services
                 if (response.IsSuccessStatusCode)
                 {
                     string content = await response.Content.ReadAsStringAsync();
-                    measurements = JsonSerializer.Deserialize<ObservableCollection<Measurement>>(content, _serializerOptions);
+                    measurements = JsonSerializer.Deserialize<List<Measurement>>(content, _serializerOptions);
                 }
             }
             catch (Exception ex)
@@ -123,11 +123,11 @@ namespace Telemetry.Service.Services
             return measurements;
         }
 
-        public async Task<ObservableCollection<Measurement>> GetMeasurementsLatestWeek()
+        public async Task<List<Measurement>> GetMeasurementsLatestWeek()
         {
             Uri uri = new Uri(string.Format(Constants.RestUrl, "telemetry/lastWeek"));
 
-            ObservableCollection<Measurement> measurements = new ObservableCollection<Measurement>();
+            List<Measurement> measurements = new List<Measurement>();
             try
             {
                 HttpResponseMessage response = await Policy.HandleResult<HttpResponseMessage>(res => !res.IsSuccessStatusCode)
@@ -137,7 +137,7 @@ namespace Telemetry.Service.Services
                 if (response.IsSuccessStatusCode)
                 {
                     string content = await response.Content.ReadAsStringAsync();
-                    measurements = JsonSerializer.Deserialize<ObservableCollection<Measurement>>(content, _serializerOptions);
+                    measurements = JsonSerializer.Deserialize<List<Measurement>>(content, _serializerOptions);
                 }
             }
             catch (Exception ex)
@@ -171,11 +171,11 @@ namespace Telemetry.Service.Services
             return false;
         }
 
-        public async Task<ObservableCollection<Measurement>> GetLivingRoomMeasurements()
+        public async Task<List<Measurement>> GetLivingRoomMeasurements()
         {
             Uri uri = new Uri(string.Format(Constants.RestUrl, "telemetry/livingRoom"));
 
-            ObservableCollection<Measurement> measurements = new ObservableCollection<Measurement>();
+            List<Measurement> measurements = new List<Measurement>();
             try
             {
                 HttpResponseMessage response = await Policy.HandleResult<HttpResponseMessage>(res => !res.IsSuccessStatusCode)
@@ -185,7 +185,7 @@ namespace Telemetry.Service.Services
                 if (response.IsSuccessStatusCode)
                 {
                     string content = await response.Content.ReadAsStringAsync();
-                    measurements = JsonSerializer.Deserialize<ObservableCollection<Measurement>>(content, _serializerOptions);
+                    measurements = JsonSerializer.Deserialize<List<Measurement>>(content, _serializerOptions);
                 }
             }
             catch (Exception ex)
@@ -196,11 +196,11 @@ namespace Telemetry.Service.Services
             return measurements;
         }
 
-        public async Task<ObservableCollection<Measurement>> GetKitchenMeasurements()
+        public async Task<List<Measurement>> GetKitchenMeasurements()
         {
             Uri uri = new Uri(string.Format(Constants.RestUrl, "telemetry/kitchen"));
 
-            ObservableCollection<Measurement> measurements = new ObservableCollection<Measurement>();
+            List<Measurement> measurements = new List<Measurement>();
             try
             {
                 HttpResponseMessage response = await Policy.HandleResult<HttpResponseMessage>(res => !res.IsSuccessStatusCode)
@@ -210,7 +210,7 @@ namespace Telemetry.Service.Services
                 if (response.IsSuccessStatusCode)
                 {
                     string content = await response.Content.ReadAsStringAsync();
-                    measurements = JsonSerializer.Deserialize<ObservableCollection<Measurement>>(content, _serializerOptions);
+                    measurements = JsonSerializer.Deserialize<List<Measurement>>(content, _serializerOptions);
                 }
             }
             catch (Exception ex)

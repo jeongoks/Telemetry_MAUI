@@ -77,7 +77,7 @@ namespace Telemetry.App.ViewModels
         };
 
         [ObservableProperty]
-        private ObservableCollection<MeasurementDTO> measurements;
+        private List<MeasurementDTO> measurements;
 
         [ObservableProperty]
         private string[] _locations = new string[] { "All", "Kitchen", "Living room" };
@@ -98,13 +98,12 @@ namespace Telemetry.App.ViewModels
         {
             if (Connectivity.NetworkAccess != NetworkAccess.Internet) { return; }
 
-            ObservableCollection<Measurement> tempMeasurements = await _apiService.GetMeasurementsLatestHour();
-            ObservableCollection<MeasurementDTO> dtoMeasurements = new();
+            List<Measurement> tempMeasurements = await _apiService.GetMeasurementsLatestHour();
+            Measurements.Clear();
             foreach (var measurement in tempMeasurements)
             {
-                dtoMeasurements.Add(measurement.ToDTO());
+                Measurements.Add(measurement.ToDTO());
             }
-            Measurements = dtoMeasurements;
             double[] lastHumidity = Measurements.Select(x => x.Humidity).ToArray();
             Series[0].Values = lastHumidity;
 
@@ -133,13 +132,12 @@ namespace Telemetry.App.ViewModels
         {
             if (Connectivity.NetworkAccess != NetworkAccess.Internet) { return; }
 
-            ObservableCollection<Measurement> tempMeasurements = await _apiService.GetMeasurementsLatestDay();
-            ObservableCollection<MeasurementDTO> dtoMeasurements = new();
+            List<Measurement> tempMeasurements = await _apiService.GetMeasurementsLatestDay();
+            Measurements.Clear();
             foreach (var measurement in tempMeasurements)
             {
-                dtoMeasurements.Add(measurement.ToDTO());
+                Measurements.Add(measurement.ToDTO());
             }
-            Measurements = dtoMeasurements;
             double[] lastHumidity = Measurements.Select(x => x.Humidity).ToArray();
             Series[0].Values = lastHumidity;
 
@@ -168,13 +166,12 @@ namespace Telemetry.App.ViewModels
         {
             if (Connectivity.NetworkAccess != NetworkAccess.Internet) { return; }
 
-            ObservableCollection<Measurement> tempMeasurements = await _apiService.GetMeasurementsLatestWeek();
-            ObservableCollection<MeasurementDTO> dtoMeasurements = new();
+            List<Measurement> tempMeasurements = await _apiService.GetMeasurementsLatestWeek();
+            Measurements.Clear();
             foreach (var measurement in tempMeasurements)
             {
-                dtoMeasurements.Add(measurement.ToDTO());
+                Measurements.Add(measurement.ToDTO());
             }
-            Measurements = dtoMeasurements;
             double[] lastHumidity = Measurements.Select(x => x.Humidity).ToArray();
             Series[0].Values = lastHumidity;
 
@@ -204,13 +201,12 @@ namespace Telemetry.App.ViewModels
             if (Connectivity.NetworkAccess != NetworkAccess.Internet) { return; }
             try
             {
-                ObservableCollection<Measurement> tempMeasurements = await _apiService.GetAllMeasurements();
-                ObservableCollection<MeasurementDTO> dtoMeasurements = new();
+                List<Measurement> tempMeasurements = await _apiService.GetAllMeasurements();
+                Measurements = new List<MeasurementDTO>();
                 foreach (var measurement in tempMeasurements)
                 {
-                    dtoMeasurements.Add(measurement.ToDTO());
+                    Measurements.Add(measurement.ToDTO());
                 }
-                Measurements = dtoMeasurements;
                 double[] lastHumidity = Measurements.Select(x => x.Humidity).ToArray();
                 Series[0].Values = lastHumidity;
 
@@ -237,7 +233,6 @@ namespace Telemetry.App.ViewModels
             catch (Exception ex)
             {
                 Debug.WriteLine($"Exception: {ex}");
-                throw;
             }            
         }
 
@@ -247,13 +242,12 @@ namespace Telemetry.App.ViewModels
 
             if (value == 0)
             {
-                ObservableCollection<Measurement> tempMeasurements = await _apiService.GetAllMeasurements();
-                ObservableCollection<MeasurementDTO> dtoMeasurements = new();
+                List<Measurement> tempMeasurements = await _apiService.GetAllMeasurements();
+                Measurements.Clear();
                 foreach (var measurement in tempMeasurements)
                 {
-                    dtoMeasurements.Add(measurement.ToDTO());
+                    Measurements.Add(measurement.ToDTO());
                 }
-                Measurements = dtoMeasurements;
                 double[] roomHumidity = Measurements.Select(x => x.Humidity).ToArray();
                 Series[0].Values = roomHumidity;
 
@@ -263,13 +257,12 @@ namespace Telemetry.App.ViewModels
             }
             else if(value == 1)
             {
-                ObservableCollection<Measurement> tempMeasurements = await _apiService.GetKitchenMeasurements();
-                ObservableCollection<MeasurementDTO> dtoMeasurements = new();
+                List<Measurement> tempMeasurements = await _apiService.GetKitchenMeasurements();
+                Measurements.Clear();
                 foreach (var measurement in tempMeasurements)
                 {
-                    dtoMeasurements.Add(measurement.ToDTO());
-                }
-                Measurements = dtoMeasurements;
+                    Measurements.Add(measurement.ToDTO());
+                };
                 double[] roomHumidity = Measurements.Select(x => x.Humidity).ToArray();
                 Series[0].Values = roomHumidity;
 
@@ -279,13 +272,12 @@ namespace Telemetry.App.ViewModels
             }
             else if( value == 2)
             {
-                ObservableCollection<Measurement> tempMeasurements = await _apiService.GetLivingRoomMeasurements();
-                ObservableCollection<MeasurementDTO> dtoMeasurements = new();
+                List<Measurement> tempMeasurements = await _apiService.GetLivingRoomMeasurements();
+                Measurements.Clear();
                 foreach (var measurement in tempMeasurements)
                 {
-                    dtoMeasurements.Add(measurement.ToDTO());
+                    Measurements.Add(measurement.ToDTO());
                 }
-                Measurements = dtoMeasurements;
                 double[] roomHumidity = Measurements.Select(x => x.Humidity).ToArray();
                 Series[0].Values = roomHumidity;
 

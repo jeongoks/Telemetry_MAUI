@@ -11,12 +11,12 @@ namespace Telemetry.Service.Contracts
     public interface IApiService
     {
         Task<Measurement> GetLatestMeasurement();
-        Task<ObservableCollection<Measurement>> GetAllMeasurements();
+        Task<List<Measurement>> GetAllMeasurements();
         Task<bool> TurnOnLedAsync(string isToggled);
-        Task<ObservableCollection<Measurement>> GetMeasurementsLatestDay();
-        Task<ObservableCollection<Measurement>> GetMeasurementsLatestHour();
-        Task<ObservableCollection<Measurement>> GetMeasurementsLatestWeek();
-        Task<ObservableCollection<Measurement>> GetLivingRoomMeasurements();
-        Task<ObservableCollection<Measurement>> GetKitchenMeasurements();
+        Task<List<Measurement>> GetMeasurementsLatestDay();
+        Task<List<Measurement>> GetMeasurementsLatestHour();
+        Task<List<Measurement>> GetMeasurementsLatestWeek();
+        Task<List<Measurement>> GetLivingRoomMeasurements();
+        Task<List<Measurement>> GetKitchenMeasurements();
     }
 }
