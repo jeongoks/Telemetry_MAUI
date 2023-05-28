@@ -6,10 +6,26 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-sm-12 my-5">            
+        <div class="col-sm-12 my-5">
+            <RadzenText TextAlign="TextAlign.Center" TextStyle="TextStyle.DisplayH4">Latest readings</RadzenText>
+            <RadzenText TextStyle="TextStyle.Subtitle1" TextAlign="TextAlign.Center">@ShownTime</RadzenText>
+            <RadzenCard class="mb-4" Style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">                
+                <RadzenCard Style="height: 12vh; width: 12vw; text-align: center;">
+                    <RadzenText TextStyle="TextStyle.H5" TextAlign="TextAlign.Center"><strong>Temperature</strong></RadzenText>
+                    <RadzenRow RowGap="0" JustifyContent="JustifyContent.Center">
+                        <RadzenText TextStyle="TextStyle.DisplayH6">@Measurement.Temperature <b>°</b></RadzenText>
+                    </RadzenRow>
+                </RadzenCard>
+                <RadzenCard Style="height: 12vh; width: 12vw; text-align: center;" >
+                    <RadzenText TextStyle="TextStyle.H5" TextAlign="TextAlign.Center"><strong>Humidity</strong></RadzenText>
+                    <RadzenRow RowGap="0" JustifyContent="JustifyContent.Center">
+                        <RadzenText TextStyle="TextStyle.DisplayH6">@Measurement.Humidity <b>%</b></RadzenText>
+                    </RadzenRow>
+                </RadzenCard>
+            </RadzenCard>
             <RadzenText TextAlign="TextAlign.Center" TextStyle="TextStyle.DisplayH4">@Title</RadzenText>
             <RadzenChart>
-                <RadzenLineSeries Smooth="@smooth" Data="@Measurements" CategoryProperty="Time" Title="Temperature" LineType="LineType.Solid" ValueProperty="Temperature" >
+                <RadzenLineSeries Smooth="@smooth" Data="@Measurements" CategoryProperty="Time" Title="Temperature" LineType="LineType.Solid" ValueProperty="Temperature">
                     <RadzenMarkers MarkerType="MarkerType.Circle" />
                 </RadzenLineSeries>
                 <RadzenLineSeries Smooth="@smooth" Data="@Measurements" CategoryProperty="Time" Title="Humidity" LineType="LineType.Solid" ValueProperty="Humidity">
@@ -19,7 +35,7 @@
                 {
                     <RadzenCategoryAxis Padding="20" Formatter="@FormatAsHour" />
                 }
-                else if(showLatestWeek)
+                else if (showLatestWeek)
                 {
                     <RadzenCategoryAxis Padding="20" Formatter="@FormatAsMonth" />
                 }
@@ -27,21 +43,23 @@
                     <RadzenGridLines Visible="true" />
                     <RadzenAxisTitle Text="Reading values" />
                 </RadzenValueAxis>
-                <RadzenLegend Position="LegendPosition.Bottom"/>
+                <RadzenLegend Position="LegendPosition.Bottom" />
             </RadzenChart>
-            <RadzenCard class="w-100 mb-4" Style="display: flex; align-items: center; gap: 0.5rem">
-                <RadzenCheckBox @bind-Value="@smooth" Name="smooth"></RadzenCheckBox>
-                <RadzenLabel Text="Smooth" For="smooth" Style="margin-right: 1rem;" />
 
-                <RadzenButton Click="ShowLatestHour">Latest hour</RadzenButton>
-                <RadzenButton Click="ShowLatestDay">Latest day</RadzenButton>
-                <RadzenButton Click="ShowLatestWeek">Latest week</RadzenButton>
+            <RadzenCard class="w-100 mb-4" Style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
+                @*<RadzenCheckBox @bind-Value="@smooth" Name="smooth"></RadzenCheckBox>
+                <RadzenLabel Text="Smooth" For="smooth" Style="margin-right: 1rem;" />*@
+
+                <RadzenButton Click="ShowLatestHour" ButtonStyle="ButtonStyle.Info" Shade="Shade.Lighter">Latest hour</RadzenButton>
+                <RadzenButton Click="ShowLatestDay" ButtonStyle="ButtonStyle.Info" Shade="Shade.Lighter">Latest day</RadzenButton>
+                <RadzenButton Click="ShowLatestWeek" ButtonStyle="ButtonStyle.Info" Shade="Shade.Lighter">Latest week</RadzenButton>
             </RadzenCard>
         </div>
     </div>
 </div>
 
 @code {
+    #region PROPERTIES
     bool smooth = false;
     bool showLatestHour = false;
     bool showLatestDay = false;
@@ -50,7 +68,10 @@
     List<double> TempMeasurements { get; set; } = new();
     List<double> HumidityMeasurements { get; set; } = new();
     List<MeasurementDTO> Measurements { get; set; } = new();
+    MeasurementDTO Measurement { get; set; } = new();
+    string ShownTime { get; set; }
     string Title { get; set; }
+    #endregion
 
     string FormatAsMonth(object value)
     {
@@ -65,7 +86,7 @@
     {
         if (value != null)
         {
-            return Convert.ToDateTime(value).ToLocalTime().ToString("hh:mm");
+            return Convert.ToDateTime(value).ToLocalTime().ToString("HH:mm");
         }
         return string.Empty;
     }
@@ -81,10 +102,14 @@
         showLatestWeek = true;
         TempMeasurements = Measurements.Select(x => x.Temperature).ToList();
         HumidityMeasurements = Measurements.Select(x => x.Humidity).ToList();
+
+        Measurement tempMeasurement = await _apiSerivce.GetLatestMeasurement();
+        Measurement = tempMeasurement.MapToDTO();
+        ShownTime = Measurement.Time.ToLocalTime().ToString("dddd dd/MM, HH:mm");
     }
 
     public async Task ShowLatestHour()
-    {        
+    {
         #region SETUP
         showLatestHour = true;
         showLatestDay = false;
@@ -102,7 +127,7 @@
         }
         Title = "All measurements in the last hour";
         TempMeasurements = Measurements.Select(x => x.Temperature).ToList();
-        HumidityMeasurements = Measurements.Select(x => x.Humidity).ToList();        
+        HumidityMeasurements = Measurements.Select(x => x.Humidity).ToList();
     }
 
     public async Task ShowLatestDay()
