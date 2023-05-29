@@ -9,14 +9,14 @@
         <div class="col-sm-12 my-5">
             <RadzenText TextAlign="TextAlign.Center" TextStyle="TextStyle.DisplayH4">Latest readings</RadzenText>
             <RadzenText TextStyle="TextStyle.Subtitle1" TextAlign="TextAlign.Center">@ShownTime</RadzenText>
-            <RadzenCard class="mb-4" Style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">                
+            <RadzenCard class="mb-4" Style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
                 <RadzenCard Style="height: 12vh; width: 12vw; text-align: center;">
                     <RadzenText TextStyle="TextStyle.H5" TextAlign="TextAlign.Center"><strong>Temperature</strong></RadzenText>
                     <RadzenRow RowGap="0" JustifyContent="JustifyContent.Center">
                         <RadzenText TextStyle="TextStyle.DisplayH6">@Measurement.Temperature <b>°</b></RadzenText>
                     </RadzenRow>
                 </RadzenCard>
-                <RadzenCard Style="height: 12vh; width: 12vw; text-align: center;" >
+                <RadzenCard Style="height: 12vh; width: 12vw; text-align: center;">
                     <RadzenText TextStyle="TextStyle.H5" TextAlign="TextAlign.Center"><strong>Humidity</strong></RadzenText>
                     <RadzenRow RowGap="0" JustifyContent="JustifyContent.Center">
                         <RadzenText TextStyle="TextStyle.DisplayH6">@Measurement.Humidity <b>%</b></RadzenText>
@@ -54,6 +54,10 @@
                 <RadzenButton Click="ShowLatestHour" ButtonStyle="ButtonStyle.Info" Shade="Shade.Lighter">Latest hour</RadzenButton>
                 <RadzenButton Click="ShowLatestDay" ButtonStyle="ButtonStyle.Info" Shade="Shade.Lighter">Latest day</RadzenButton>
                 <RadzenButton Click="ShowLatestWeek" ButtonStyle="ButtonStyle.Info" Shade="Shade.Lighter">Latest week</RadzenButton>
+            </RadzenCard>
+
+            <RadzenCard class="w-100 mb-4" Style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
+                <RadzenButton Click="ShowLatestWeek" ButtonStyle="ButtonStyle.Warning" Shade="Shade.Lighter" Icon="RadzenIcon.">Turn on LED</RadzenButton>
             </RadzenCard>
         </div>
     </div>

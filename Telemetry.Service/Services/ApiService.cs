@@ -1,6 +1,5 @@
-﻿using Polly;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
+﻿using System.Diagnostics;
+using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text.Json;
 using Telemetry.Service.Contracts;
@@ -13,9 +12,9 @@ namespace Telemetry.Service.Services
         private readonly HttpClient _httpClient;
         private readonly JsonSerializerOptions _serializerOptions;
 
-        public ApiService()
+        public ApiService(IHttpClientFactory factory)
         {
-            _httpClient = new HttpClient();
+            _httpClient = factory.CreateClient("Telemetry_Web");
             _serializerOptions = new JsonSerializerOptions
             {
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase,

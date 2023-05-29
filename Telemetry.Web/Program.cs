@@ -9,6 +9,10 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 
 builder.Services.AddSingleton<IApiService, ApiService>();
+builder.Services.AddHttpClient("Telemetry_Web", client =>
+{
+    client.BaseAddress = new Uri("https://8hmqf77k-7240.euw.devtunnels.ms");
+});
 
 builder.Services.AddScoped<DialogService>();
 builder.Services.AddScoped<NotificationService>();

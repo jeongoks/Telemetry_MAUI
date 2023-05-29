@@ -1,8 +1,23 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
 using Telemetry.Service.Contracts;
 using Telemetry.Service.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+//var domain = $"https://{builder.Configuration["Auth0:Domain"]}/";
+//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+//.AddJwtBearer(options =>
+//{
+//    options.Authority = domain;
+//    options.Audience = builder.Configuration["Auth0:Audience"];
+//    options.TokenValidationParameters = new TokenValidationParameters
+//    {
+//        NameClaimType = ClaimTypes.NameIdentifier
+//    };
+//});
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -23,6 +38,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+//app.UseAuthentication();
+//app.UseAuthorization();
 
 app.MapGet("/telemetries", async (IInfluxDBService influxDBService) =>
 {
@@ -59,14 +77,9 @@ app.MapGet("/telemetry/kitchen", async (IInfluxDBService influxDBService) =>
     return await influxDBService.GetKitchenMeasurements();
 });
 
-app.MapPost("/servo", async (IMqttClientPublish publishClient, [FromBody]string message) =>
+app.MapPost("/servo", async (IMqttClientPublish publishClient, [FromBody] string message) =>
 {
     await publishClient.PublishMessage(message);
 });
 
 app.Run();
-
-internal record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
