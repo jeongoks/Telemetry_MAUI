@@ -1,6 +1,11 @@
 ﻿@inherits LayoutComponentBase
 
-<PageTitle>Telemetry Grapha</PageTitle>
+<PageTitle>Telemetry Graph</PageTitle>
+
+<RadzenDialog />
+<RadzenNotification />
+<RadzenContextMenu />
+<RadzenTooltip />
 
 <div class="page">
     <div class="sidebar">
@@ -8,10 +13,6 @@
     </div>
 
     <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-        </div>
-
         <article class="content px-4">
             @Body
         </article>
