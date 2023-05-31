@@ -1,0 +1,20 @@
+﻿.telemetry-background {
+    background-color: #FFE5B4 !important;
+    /*color: #FFE5B4;*/
+}
+
+.background-article {
+    background-color: #F5F5F5 !important;
+}
+
+.card-background {
+    background-color: #FAFAFA !important;
+}
+
+.rz-switch .rz-switch-circle {
+    background: #FFCBA4 !important;
+}
+
+.rz-switch.rz-switch-checked .rz-switch-circle {
+    color: #F4A384 !important;
+}

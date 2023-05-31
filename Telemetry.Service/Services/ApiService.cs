@@ -14,7 +14,8 @@ namespace Telemetry.Service.Services
 
         public ApiService(IHttpClientFactory factory)
         {
-            _httpClient = factory.CreateClient("Telemetry_Web");
+            _httpClient = factory.CreateClient("Telemetry_Web");        // For Web.
+            //_httpClient = new HttpClient();                             // For MAUI, also remove the parameters of the constructor.
             _serializerOptions = new JsonSerializerOptions
             {
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase,

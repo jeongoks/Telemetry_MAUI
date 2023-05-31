@@ -6,30 +6,36 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-sm-12 my-5">
-            <RadzenText TextAlign="TextAlign.Center" TextStyle="TextStyle.DisplayH4">Latest readings</RadzenText>
+        <div class="col-sm-12">
+            <RadzenText TextAlign="TextAlign.Center" TextStyle="TextStyle.DisplayH5">Latest reading</RadzenText>
             <RadzenText TextStyle="TextStyle.Subtitle1" TextAlign="TextAlign.Center">@ShownTime</RadzenText>
-            <RadzenCard class="mb-4" Style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
-                <RadzenCard Style="height: 12vh; width: 12vw; text-align: center;">
+            <RadzenCard class="mb-4 background-article" Style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
+                <RadzenCard class="card-background" Style="height: 12vh; width: 12vw; text-align: center;">
                     <RadzenText TextStyle="TextStyle.H5" TextAlign="TextAlign.Center"><strong>Temperature</strong></RadzenText>
                     <RadzenRow RowGap="0" JustifyContent="JustifyContent.Center">
                         <RadzenText TextStyle="TextStyle.DisplayH6">@Measurement.Temperature <b>°</b></RadzenText>
                     </RadzenRow>
                 </RadzenCard>
-                <RadzenCard Style="height: 12vh; width: 12vw; text-align: center;">
+                <RadzenCard class="card-background" Style="height: 12vh; width: 12vw; text-align: center;">
                     <RadzenText TextStyle="TextStyle.H5" TextAlign="TextAlign.Center"><strong>Humidity</strong></RadzenText>
                     <RadzenRow RowGap="0" JustifyContent="JustifyContent.Center">
                         <RadzenText TextStyle="TextStyle.DisplayH6">@Measurement.Humidity <b>%</b></RadzenText>
                     </RadzenRow>
                 </RadzenCard>
+                <RadzenCard class="card-background" Style="height: 12vh; width: 12vw; text-align: center;">
+                    <RadzenText TextStyle="TextStyle.H5" TextAlign="TextAlign.Center"><strong>Turn on LED</strong></RadzenText>
+                    <RadzenRow RowGap="0" JustifyContent="JustifyContent.Center">
+                        <RadzenSwitch @bind-Value="@IsToggled" Change="@(args => OnSwitchChange(args))"></RadzenSwitch>
+                    </RadzenRow>
+                </RadzenCard>
             </RadzenCard>
 
             <RadzenText TextAlign="TextAlign.Center" TextStyle="TextStyle.DisplayH4">@Title</RadzenText>
-            <RadzenChart>
-                <RadzenLineSeries Smooth="@smooth" Data="@Measurements" CategoryProperty="Time" Title="Temperature" LineType="LineType.Solid" ValueProperty="Temperature">
+            <RadzenChart class="background-article">
+                <RadzenLineSeries Stroke="rgb(255,229,180)" Smooth="@smooth" Data="@Measurements" CategoryProperty="Time" Title="Temperature" LineType="LineType.Solid" ValueProperty="Temperature">
                     <RadzenMarkers MarkerType="MarkerType.Circle" />
                 </RadzenLineSeries>
-                <RadzenLineSeries Smooth="@smooth" Data="@Measurements" CategoryProperty="Time" Title="Humidity" LineType="LineType.Solid" ValueProperty="Humidity">
+                <RadzenLineSeries Stroke="rgb(222, 126, 93)" Smooth="@smooth" Data="@Measurements" CategoryProperty="Time" Title="Humidity" LineType="LineType.Solid" ValueProperty="Humidity">
                     <RadzenMarkers MarkerType="MarkerType.Circle" />
                 </RadzenLineSeries>
                 @if (showLatestHour || showLatestDay)
@@ -47,17 +53,10 @@
                 <RadzenLegend Position="LegendPosition.Bottom" />
             </RadzenChart>
 
-            <RadzenCard class="w-100 mb-4" Style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
-                @*<RadzenCheckBox @bind-Value="@smooth" Name="smooth"></RadzenCheckBox>
-                <RadzenLabel Text="Smooth" For="smooth" Style="margin-right: 1rem;" />*@
-
-                <RadzenButton Click="ShowLatestHour" ButtonStyle="ButtonStyle.Info" Shade="Shade.Lighter">Latest hour</RadzenButton>
-                <RadzenButton Click="ShowLatestDay" ButtonStyle="ButtonStyle.Info" Shade="Shade.Lighter">Latest day</RadzenButton>
-                <RadzenButton Click="ShowLatestWeek" ButtonStyle="ButtonStyle.Info" Shade="Shade.Lighter">Latest week</RadzenButton>
-            </RadzenCard>
-
-            <RadzenCard class="w-100 mb-4" Style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
-                <RadzenButton Click="ShowLatestWeek" ButtonStyle="ButtonStyle.Warning" Shade="Shade.Lighter" Icon="RadzenIcon.">Turn on LED</RadzenButton>
+            <RadzenCard class="w-100 mb-4 background-article" Style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
+                <RadzenButton Click="ShowLatestHour" ButtonStyle="ButtonStyle.Warning" Shade="Shade.Lighter" Text="Latest hour" IsBusy="IsBusy" BusyText="Loading"></RadzenButton>
+                <RadzenButton Click="ShowLatestDay" ButtonStyle="ButtonStyle.Warning" Shade="Shade.Lighter" Text="Latest day" IsBusy="IsBusy" BusyText="Loading"></RadzenButton>
+                <RadzenButton Click="ShowLatestWeek" ButtonStyle="ButtonStyle.Warning" Shade="Shade.Lighter" Text="Latest week" IsBusy="IsBusy" BusyText="Loading"></RadzenButton>
             </RadzenCard>
         </div>
     </div>
@@ -76,6 +75,8 @@
     MeasurementDTO Measurement { get; set; } = new();
     string ShownTime { get; set; }
     string Title { get; set; }
+    bool IsToggled { get; set; } = false;
+    bool IsBusy { get; set; } = false;
     #endregion
 
     string FormatAsMonth(object value)
@@ -119,6 +120,7 @@
         showLatestHour = true;
         showLatestDay = false;
         showLatestWeek = false;
+        IsBusy = true;
 
         Measurements.Clear();
         TempMeasurements.Clear();
@@ -133,6 +135,7 @@
         Title = "All measurements in the last hour";
         TempMeasurements = Measurements.Select(x => x.Temperature).ToList();
         HumidityMeasurements = Measurements.Select(x => x.Humidity).ToList();
+        IsBusy = false;
     }
 
     public async Task ShowLatestDay()
@@ -141,6 +144,7 @@
         showLatestDay = true;
         showLatestHour = false;
         showLatestWeek = false;
+        IsBusy = true;
 
         Measurements.Clear();
         TempMeasurements.Clear();
@@ -155,6 +159,7 @@
         Title = "All measurements in the last day";
         TempMeasurements = Measurements.Select(x => x.Temperature).ToList();
         HumidityMeasurements = Measurements.Select(x => x.Humidity).ToList();
+        IsBusy = false;
     }
 
     public async Task ShowLatestWeek()
@@ -163,6 +168,7 @@
         showLatestWeek = true;
         showLatestDay = false;
         showLatestHour = false;
+        IsBusy = true;
 
         Measurements.Clear();
         TempMeasurements.Clear();
@@ -177,5 +183,18 @@
         Title = "All measurements in the last week";
         TempMeasurements = Measurements.Select(x => x.Temperature).ToList();
         HumidityMeasurements = Measurements.Select(x => x.Humidity).ToList();
+        IsBusy = false;
+    }
+
+    async void OnSwitchChange(bool value)
+    {
+        if (value)
+        {
+            await _apiSerivce.TurnOnLedAsync("HIGH");
+        }
+        else if (!value)
+        {
+            await _apiSerivce.TurnOnLedAsync("LOW");
+        }
     }
 }

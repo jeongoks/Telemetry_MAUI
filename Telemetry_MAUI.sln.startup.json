@@ -52,10 +52,10 @@
         }
     */
   "MultiProjectConfigurations": {
-    "TelemetryAPI + App": {
+    "TelemetryAPI + Web": {
       "Projects": {
         "Telemetry.API": {},
-        "Telemetry.App":  {}
+        "Telemetry.Web":  {}
       }     
     }
   }
