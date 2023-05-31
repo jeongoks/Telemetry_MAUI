@@ -1,0 +1,23 @@
+﻿@inject AuthenticationStateProvider AuthState
+
+<AuthorizeView>
+    <Authorized>
+        <RadzenText class="text-center mt-2" TextAlign="TextAlign.Center">Welcome @Username !</RadzenText>
+        <RadzenLink class="btn btn-light" Style="color: black;" Path="logout">Log out</RadzenLink>
+    </Authorized>
+    <NotAuthorized>
+        <RadzenLink class="btn btn-light" Style="color: black;" Path="login?redirectUri=/">Log in</RadzenLink>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    private string Username = "Anonymous User";
+
+    protected override async Task OnInitializedAsync()
+    {
+        var state = await AuthState.GetAuthenticationStateAsync();
+
+        Username = state.User.Identity.Name ?? string.Empty;
+        await base.OnInitializedAsync();
+    }
+}

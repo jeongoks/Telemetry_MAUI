@@ -1,6 +1,6 @@
 ﻿@page "/"
 @inject IApiService _apiSerivce;
-
+@attribute [Authorize]
 
 <PageTitle>Telemetry Graph Dashboard</PageTitle>
 
@@ -32,7 +32,7 @@
 
             <RadzenText TextAlign="TextAlign.Center" TextStyle="TextStyle.DisplayH4">@Title</RadzenText>
             <RadzenChart class="background-article">
-                <RadzenLineSeries Stroke="rgb(255,229,180)" Smooth="@smooth" Data="@Measurements" CategoryProperty="Time" Title="Temperature" LineType="LineType.Solid" ValueProperty="Temperature">
+                <RadzenLineSeries Stroke="rgb(222, 172, 106)" Smooth="@smooth" Data="@Measurements" CategoryProperty="Time" Title="Temperature" LineType="LineType.Solid" ValueProperty="Temperature">
                     <RadzenMarkers MarkerType="MarkerType.Circle" />
                 </RadzenLineSeries>
                 <RadzenLineSeries Stroke="rgb(222, 126, 93)" Smooth="@smooth" Data="@Measurements" CategoryProperty="Time" Title="Humidity" LineType="LineType.Solid" ValueProperty="Humidity">
@@ -109,6 +109,28 @@
         TempMeasurements = Measurements.Select(x => x.Temperature).ToList();
         HumidityMeasurements = Measurements.Select(x => x.Humidity).ToList();
 
+        Measurement tempMeasurement = await _apiSerivce.GetLatestMeasurement();
+        Measurement = tempMeasurement.MapToDTO();
+        ShownTime = Measurement.Time.ToLocalTime().ToString("dddd dd/MM, HH:mm");
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            using var timer = new PeriodicTimer(TimeSpan.FromMinutes(2));
+            while (await timer.WaitForNextTickAsync())
+            {
+                await GetLatestReading();
+                StateHasChanged();
+            }
+        }
+
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    async Task GetLatestReading()
+    {
         Measurement tempMeasurement = await _apiSerivce.GetLatestMeasurement();
         Measurement = tempMeasurement.MapToDTO();
         ShownTime = Measurement.Time.ToLocalTime().ToString("dddd dd/MM, HH:mm");

@@ -1,6 +1,9 @@
 ﻿.telemetry-background {
     background-color: #FFE5B4 !important;
-    /*color: #FFE5B4;*/
+}
+
+.header-background {
+    background-color: #F0D4A1 !important;
 }
 
 .background-article {

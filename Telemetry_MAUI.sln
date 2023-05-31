@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Telemetry.API", "Telemetry.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Telemetry.Service", "Telemetry.Service\Telemetry.Service.csproj", "{E35B5438-F400-479D-8ACF-FCFD29796546}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Telemetry.Web", "Telemetry.Web\Telemetry.Web.csproj", "{B63D2085-C8E6-4268-96CC-274F23D06F26}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Telemetry.Web", "Telemetry.Web\Telemetry.Web.csproj", "{B63D2085-C8E6-4268-96CC-274F23D06F26}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
