@@ -1,9 +1,9 @@
 ﻿.telemetry-background {
-    background-color: #FFE5B4 !important;
+    background-color: #9eedf7 !important;
 }
 
 .header-background {
-    background-color: #F0D4A1 !important;
+    background-color: #82cfd9 !important;
 }
 
 .background-article {
@@ -15,9 +15,9 @@
 }
 
 .rz-switch .rz-switch-circle {
-    background: #FFCBA4 !important;
+    background: #9eedf7 !important;
 }
 
 .rz-switch.rz-switch-checked .rz-switch-circle {
-    color: #F4A384 !important;
+    color: #82cfd9 !important;
 }

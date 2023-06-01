@@ -32,10 +32,10 @@
 
             <RadzenText TextAlign="TextAlign.Center" TextStyle="TextStyle.DisplayH4">@Title</RadzenText>
             <RadzenChart class="background-article">
-                <RadzenLineSeries Stroke="rgb(222, 172, 106)" Smooth="@smooth" Data="@Measurements" CategoryProperty="Time" Title="Temperature" LineType="LineType.Solid" ValueProperty="Temperature">
+                <RadzenLineSeries Stroke="rgb(35, 86, 168)" Smooth="@smooth" Data="@Measurements" CategoryProperty="Time" Title="Temperature" LineType="LineType.Solid" ValueProperty="Temperature">
                     <RadzenMarkers MarkerType="MarkerType.Circle" />
                 </RadzenLineSeries>
-                <RadzenLineSeries Stroke="rgb(222, 126, 93)" Smooth="@smooth" Data="@Measurements" CategoryProperty="Time" Title="Humidity" LineType="LineType.Solid" ValueProperty="Humidity">
+                <RadzenLineSeries Stroke="rgb(15, 165, 184)" Smooth="@smooth" Data="@Measurements" CategoryProperty="Time" Title="Humidity" LineType="LineType.Solid" ValueProperty="Humidity">
                     <RadzenMarkers MarkerType="MarkerType.Circle" />
                 </RadzenLineSeries>
                 @if (showLatestHour || showLatestDay)
@@ -54,48 +54,50 @@
             </RadzenChart>
 
             <RadzenCard class="w-100 mb-4 background-article" Style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
-                <RadzenButton Click="ShowLatestHour" ButtonStyle="ButtonStyle.Warning" Shade="Shade.Lighter" Text="Latest hour" IsBusy="IsBusy" BusyText="Loading"></RadzenButton>
-                <RadzenButton Click="ShowLatestDay" ButtonStyle="ButtonStyle.Warning" Shade="Shade.Lighter" Text="Latest day" IsBusy="IsBusy" BusyText="Loading"></RadzenButton>
-                <RadzenButton Click="ShowLatestWeek" ButtonStyle="ButtonStyle.Warning" Shade="Shade.Lighter" Text="Latest week" IsBusy="IsBusy" BusyText="Loading"></RadzenButton>
+                <RadzenButton Click="ShowLatestHour" ButtonStyle="ButtonStyle.Info" Shade="Shade.Lighter" Text="Latest hour" IsBusy="IsBusy" BusyText="Loading"></RadzenButton>
+                <RadzenButton Click="ShowLatestDay" ButtonStyle="ButtonStyle.Info" Shade="Shade.Lighter" Text="Latest day" IsBusy="IsBusy" BusyText="Loading"></RadzenButton>
+                <RadzenButton Click="ShowLatestWeek" ButtonStyle="ButtonStyle.Info" Shade="Shade.Lighter" Text="Latest week" IsBusy="IsBusy" BusyText="Loading"></RadzenButton>
+                <RadzenDropDown Data="Rooms" Placeholder="Select room" TValue="int" Change="@(args => OnDropDownChange(args))"></RadzenDropDown>
             </RadzenCard>
         </div>
     </div>
 </div>
 
 @code {
-    #region PROPERTIES
-    bool smooth = false;
-    bool showLatestHour = false;
-    bool showLatestDay = false;
-    bool showLatestWeek = false;
+        #region PROPERTIES
+        bool smooth = false;
+        bool showLatestHour = false;
+        bool showLatestDay = false;
+        bool showLatestWeek = false;
 
-    List<double> TempMeasurements { get; set; } = new();
-    List<double> HumidityMeasurements { get; set; } = new();
-    List<MeasurementDTO> Measurements { get; set; } = new();
-    MeasurementDTO Measurement { get; set; } = new();
-    string ShownTime { get; set; }
-    string Title { get; set; }
-    bool IsToggled { get; set; } = false;
-    bool IsBusy { get; set; } = false;
-    #endregion
+        List<string> Rooms;
+        List<double> TempMeasurements { get; set; } = new();
+        List<double> HumidityMeasurements { get; set; } = new();
+        List<MeasurementDTO> Measurements { get; set; } = new();
+        MeasurementDTO Measurement { get; set; } = new();
+        string ShownTime { get; set; }
+        string Title { get; set; }
+        bool IsToggled { get; set; } = false;
+        bool IsBusy { get; set; } = false;
+        #endregion
 
-    string FormatAsMonth(object value)
-    {
-        if (value != null)
+        string FormatAsMonth(object value)
         {
-            return Convert.ToDateTime(value).ToLocalTime().ToString("ddd");
+            if (value != null)
+            {
+                return Convert.ToDateTime(value).ToLocalTime().ToString("ddd");
+            }
+            return string.Empty;
         }
-        return string.Empty;
-    }
 
-    string FormatAsHour(object value)
-    {
-        if (value != null)
+        string FormatAsHour(object value)
         {
-            return Convert.ToDateTime(value).ToLocalTime().ToString("HH:mm");
+            if (value != null)
+            {
+                return Convert.ToDateTime(value).ToLocalTime().ToString("HH:mm");
+            }
+            return string.Empty;
         }
-        return string.Empty;
-    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -112,6 +114,7 @@
         Measurement tempMeasurement = await _apiSerivce.GetLatestMeasurement();
         Measurement = tempMeasurement.MapToDTO();
         ShownTime = Measurement.Time.ToLocalTime().ToString("dddd dd/MM, HH:mm");
+        Rooms = new List<string>() { "All", "Kitchen", "Living Room" };
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -218,5 +221,52 @@
         {
             await _apiSerivce.TurnOnLedAsync("LOW");
         }
+    }
+
+    async void OnDropDownChange(object value)
+    {
+        #region SETUP
+        showLatestWeek = true;
+        showLatestDay = false;
+        showLatestHour = false;
+        IsBusy = true;
+
+        Measurements.Clear();
+        TempMeasurements.Clear();
+        HumidityMeasurements.Clear();
+        #endregion
+
+        if (value.ToString() == "Kitchen")
+        {
+            List<Measurement> measurements = await _apiSerivce.GetKitchenMeasurements();
+            foreach (var measurement in measurements)
+            {
+                Measurements.Add(measurement.MapToDTO());
+            }
+            Title = "All measurements in kitchen";
+        }
+        else if (value.ToString() == "Living Room")
+        {
+            List<Measurement> measurements = await _apiSerivce.GetLivingRoomMeasurements();
+            foreach (var measurement in measurements)
+            {
+                Measurements.Add(measurement.MapToDTO());
+            }
+            Title = "All measurements in living room";
+        }
+        else
+        {
+            List<Measurement> measurements = await _apiSerivce.GetAllMeasurements();
+            foreach (var measurement in measurements)
+            {
+                Measurements.Add(measurement.MapToDTO());
+            }
+            Title = "All measurements";
+        }
+
+        TempMeasurements = Measurements.Select(x => x.Temperature).ToList();
+        HumidityMeasurements = Measurements.Select(x => x.Humidity).ToList();
+        IsBusy = false;
+        StateHasChanged();
     }
 }
