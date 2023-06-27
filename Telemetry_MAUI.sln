@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Telemetry.Service", "Teleme
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Telemetry.Web", "Telemetry.Web\Telemetry.Web.csproj", "{B63D2085-C8E6-4268-96CC-274F23D06F26}"
 EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{BCFAACFF-FA96-4E7E-B142-2917DFEDE6D6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{B63D2085-C8E6-4268-96CC-274F23D06F26}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B63D2085-C8E6-4268-96CC-274F23D06F26}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B63D2085-C8E6-4268-96CC-274F23D06F26}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCFAACFF-FA96-4E7E-B142-2917DFEDE6D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCFAACFF-FA96-4E7E-B142-2917DFEDE6D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCFAACFF-FA96-4E7E-B142-2917DFEDE6D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCFAACFF-FA96-4E7E-B142-2917DFEDE6D6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  telemetry.web:
+    image: ${DOCKER_REGISTRY-}telemetryweb
+    build:
+      context: .
+      dockerfile: Telemetry.Web/Dockerfile
+
+  telemetry.api:
+    image: ${DOCKER_REGISTRY-}telemetryapi
+    build:
+      context: .
+      dockerfile: Telemetry.API/Dockerfile
+

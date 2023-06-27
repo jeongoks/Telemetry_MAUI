@@ -19,7 +19,7 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<IApiService, ApiService>();
 builder.Services.AddHttpClient("Telemetry_Web", client =>
 {
-    client.BaseAddress = new Uri("https://00qsrx98-7240.euw.devtunnels.ms/");
+    client.BaseAddress = new Uri("https://telemetry.api/");
 });
 
 builder.Services.AddScoped<DialogService>();
