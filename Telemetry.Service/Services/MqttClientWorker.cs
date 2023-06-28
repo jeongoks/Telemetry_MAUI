@@ -52,6 +52,7 @@ namespace Telemetry.Service.Services
                 f =>
                 {
                     f.WithTopic("telemetry/home/#");
+                    f.WithTopic("influx/#");
                 })
                 .Build();
 
