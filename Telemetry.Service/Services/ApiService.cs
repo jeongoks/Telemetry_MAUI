@@ -21,6 +21,7 @@ namespace Telemetry.Service.Services
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
                 WriteIndented = true,
             };
+            _httpClient.Timeout = TimeSpan.FromMinutes(2);
         }
 
         public async Task<Measurement> GetLatestMeasurement()

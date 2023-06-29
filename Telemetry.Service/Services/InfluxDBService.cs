@@ -28,25 +28,25 @@ namespace Telemetry.Service.Services
             var queryApi = client.GetQueryApiSync();
 
             var query = InfluxDBQueryable<Measurement>.Queryable(_configuration["_INFLUXDB:_BUCKET"], _configuration["_INFLUXDB:_ORGANIZATION"], queryApi)
-                        .ToList()        
+                        .ToList()
                         .OrderByDescending(i => i.Time)
                         .Take(1);
 
-            Measurement measurement = query.FirstOrDefault(); 
+            Measurement measurement = query.FirstOrDefault();
 
             return measurement;
         }
 
         public async Task<List<Measurement>> GetMeasurements()
         {
-            using var client = new InfluxDBClient(_configuration["_INFLUXDB:_URL"], _configuration["_INFLUXDB:_TOKEN"]);
+            var options = new InfluxDBClientOptions(_configuration["_INFLUXDB:_URL"]) { Timeout = TimeSpan.FromMinutes(3), Token = _configuration["_INFLUXDB:_TOKEN"] };
+            using var client = new InfluxDBClient(options);
             var queryApi = client.GetQueryApiSync();
 
-            var query = from s in InfluxDBQueryable<Measurement>.Queryable(_configuration["_INFLUXDB:_BUCKET"], _configuration["_INFLUXDB:_ORGANIZATION"], queryApi)
+            var query = from s in InfluxDBQueryable<Measurement>.Queryable(_configuration["_INFLUXDB:_BUCKET"], _configuration["_INFLUXDB:_ORGANIZATION"], queryApi).Take(10)
                         select s;
 
             List<Measurement> measurements = query.ToList();
-
             return measurements;
         }
 
@@ -98,7 +98,7 @@ namespace Telemetry.Service.Services
             var queryApi = client.GetQueryApiSync();
 
             var query = InfluxDBQueryable<Measurement>.Queryable(_configuration["_INFLUXDB:_BUCKET"], _configuration["_INFLUXDB:_ORGANIZATION"], queryApi)
-                        .OrderByDescending(x => x.Time)                          
+                        .OrderByDescending(x => x.Time)
                         .ToList();
 
             List<Measurement> measurements = query.Where(i => i.Time.ToLocalTime() > DateTime.Now.AddMinutes(-60)).ToList();
@@ -124,7 +124,7 @@ namespace Telemetry.Service.Services
         {
             string location = topic.Split("/")[2];
 
-            using var client = new InfluxDBClient(_configuration["_INFLUXDB:_URL"], _configuration["_INFLUXDB:_TOKEN"]);            
+            using var client = new InfluxDBClient(_configuration["_INFLUXDB:_URL"], _configuration["_INFLUXDB:_TOKEN"]);
 
             // Write Data
             var writeApi = client.GetWriteApiAsync();
