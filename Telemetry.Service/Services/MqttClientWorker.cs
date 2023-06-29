@@ -32,8 +32,6 @@ namespace Telemetry.Service.Services
             _mqttClient = mqttFactory.CreateMqttClient();
             var mqttClientOptions = new MqttClientOptionsBuilder()
                 .WithTcpServer(_configuration["_BROKER"], 1883)
-                .WithClientId(_configuration["_CLIENTID"])
-                .WithCleanSession(true)
                 .WithCredentials(_configuration["_USERNAME"], _configuration["_PASSWORD"])
                 .Build();
 
@@ -51,7 +49,6 @@ namespace Telemetry.Service.Services
                 f =>
                 {
                     f.WithTopic("telemetry/home/#");
-                    f.WithTopic("influx/#");
                 })
                 .Build();
 
