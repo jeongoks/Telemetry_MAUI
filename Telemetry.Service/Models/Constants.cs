@@ -8,6 +8,6 @@ namespace Telemetry.Service.Models
 {
     public static class Constants
     {
-        public static string RestUrl = "http://10.135.16.160:1234/{0}";        
+        public static string RestUrl = "http://10.135.16.160:32678/{0}";        
     }
 }
