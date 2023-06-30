@@ -144,7 +144,7 @@ This is a diagram to give an overview of how the whole solution speaks together 
      - [x] Make sure that you can retrieve data from the Web application, using the local API now.
 
 ## Installation guide - RaspberryPi w. Docker
-If you ever wish to have your own `MQTT broker` and run it locally on a RaspberryPi, as well as the `API` and the Database, then there's a way to set all of this up by the use of Docker on Linux. It is actually made quite simple and I will below here try to guide you through how to set it up in an easy step-to-step guide along with the following commands.
+If you ever wish to have your own `MQTT broker` and run it locally on a RaspberryPi, as well as the `API` and the Database, then there's a way to set all of this up by the use of Docker on Linux. It is actually made quite simple and I will below here try to guide you through how to set it up in an easy step-to-step guide along with the following commands. This branch is already updated to be set up with these configurations.
 
 ### RaspberryPi OS
   
@@ -166,7 +166,7 @@ When choosing an `OS`, then choose the one for your liking. In our case, we'll b
 
 Once the above configurations have been set, then you will `CHOOSE STORAGE` and then choose the SD-reader, choosing `WRITE` to overwrite the connected SD-Card. This SD-Card will then be put into the RaspberryPI and connect power for it to start up.
 
-After this, open up a powershell terminal with administrator rights and make sure that your PC is on the same WiFi as the RasberryPI. then write the following command:
+After this, open up a powershell terminal with administrator rights and make sure that your PC is on the same WiFi as the RaspberryPI. then write the following command:
 
 ```
 ssh pi@<hostname>.local
