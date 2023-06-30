@@ -1,4 +1,4 @@
-# MAUI mobile app - School project
+# Telemetry data - School project
 
 ## Introduction
 This project is a school assignment, where we wish to display telemetry data, such as `Temperature` and `Humidity` as well as a `TimeStamp` as to when the readings have been read - in the visualization of a chart, so that any user can get an overview of the readings.
@@ -6,6 +6,8 @@ This project is a school assignment, where we wish to display telemetry data, su
 The readings come from a previous project, where we have made a `Web API` which stores and also gets the data from a Database.
 
 An extension to the project, is that we now also wish to display the same data, just on a web application - which will be made in a `Blazor Server` application. 
+
+A further extension will be to have the `API`, `Broker` and `InfluxDB` to be located locally on a RaspberryPI.
 
 ## Architecture diagram
 This is a diagram to give an overview of how the whole solution speaks together and where we're collecting our data from and what device is giving us the wanted data for the graphs on the mobile application.
@@ -126,13 +128,132 @@ This is a diagram to give an overview of how the whole solution speaks together 
  - [x] The App needs to be built upon MVVM design pattern and contain Dependency injection.
  - [ ] Is robust toward an unstable internet connection.
  - [x] The project is turned in through a Github repository, with a good README.md file, which is presented for the class and teacher.
- - [ ] Make an equivalent Blazor server side application to display the same things.
+ - [x] Make an equivalent Blazor server side application to display the same things.
 
 
 ## Optional requirements
  - [x] The opportunity to choose different meassurement readings, eg. the different rooms in the house.
  - [ ] An alarm which will advertise that the `Temperature` is out of its limit - high or low.
  - [ ] Can show latest data, if the network disconnects.
+
+## Docker requirements
+ - [x] Have a local MQTT broker running on a RaspberryPI.
+ - [x] Have InfluxDB locally located on the RaspberryPi.
+     - [x] Make sure that `Telemetry` data is being sent up from the Arduino to the InfluxDB.
+ - [x] Have your API located on the RaspberryPI.
+     - [x] Make sure that you can retrieve data from the Web application, using the local API now.
+
+## Installation guide - RaspberryPi w. Docker
+If you ever wish to have your own `MQTT broker` and run it locally on a RaspberryPi, as well as the `API` and the Database, then there's a way to set all of this up by the use of Docker on Linux. It is actually made quite simple and I will below here try to guide you through how to set it up in an easy step-to-step guide along with the following commands.
+
+### RaspberryPi OS
+  
+If you don't already have a RaspberryPi OS, then you can install one on an SD-card by using the  `Raspberry Pi Imager` on your PC by accessing this link: [RaspberryPi Imager](https://www.raspberrypi.com/software/) or you can use the following command in a terminal:
+
+```
+winget install -e --id RaspberryPiFoundation.RaspberryPiImager
+```
+    
+When accessing the software, then you need to set up the following things in the settings menu:
+- Give it a `hostname` that you will be able to remember. 
+- `Enable SSH`.
+- `Use password authentication` where you will type in a unique password.
+- `Configure wifi` Writing in the `SSID` and the password for it. You can also configure the `Wifi country` which is **dk** in this case.
+- `Set locale settings` where you will set the `Keyboard layout` to **dk** if you're in Denmark.
+- Check the `Skip first-run wizard` and then Uncheck the `Enable Telemetry`.
+  
+When choosing an `OS`, then choose the one for your liking. In our case, we'll be choosing the newest `Raspberry PI OS Lite (64-bit)`.
+
+Once the above configurations have been set, then you will `CHOOSE STORAGE` and then choose the SD-reader, choosing `WRITE` to overwrite the connected SD-Card. This SD-Card will then be put into the RaspberryPI and connect power for it to start up.
+
+After this, open up a powershell terminal with administrator rights and make sure that your PC is on the same WiFi as the RasberryPI. then write the following command:
+
+```
+ssh pi@<hostname>.local
+```
+
+After this then write the command `sudo apt update` and once that finished, then write the command `sudo apt upgrade` to install the updates. Important to accept all of the questions.
+
+### Docker on Rapberry Pi
+
+On the terminal where you're on your ssh connection, then write following command to install docker:
+
+```
+sudo apt install docker docker.io docker-compose
+```
+
+Once docker has been successfully installed, the start docker with following command:
+
+```
+sudo systemctl start docker
+```
+
+Then you will be giving your user access to docker with this command:
+
+```
+sudo usermod -a -G docker <username>
+```
+
+Then it is important to restart your pi and you do that with the command `sudo reboot`.
+
+Once the RaspberryPi has restarted, then you will be prompted to login again and then test that Docker has been installed by writing `docker ps` and retrieving the following in the terminal:
+
+```
+CONTAINER ID     IMAGE   COMMAND   CREATED    STATUS   PORTS   NAMES
+```
+
+### RabbitMQ as the broker
+We will be using RabbitMQ as the `MQTT broker` to run locally on the RaspberryPi and to start using this then you be running the following command:
+
+```
+docker run -it -d  --name rabbitmq -p 5672:5672 -p 15672:15672 -p 1883:1883 rabbitmq:management
+```
+
+We are using the management tag, to access the UI of the broker - getting a good overview of Clients connected and the flows of the messages being sent and received.
+
+However, this image is built for `AMQP` and therefore we will be needing to install a plugin but, to do so, we will have to attach ourselves to RabbitMqs terminal in the container, which can be done with the following command:
+
+```
+docker exec -it rabbitmq bash
+```
+
+This should change the prompt to stand on `root@xxxxxxxx:/#` and if that is correct, then we need to enable `MQTT` in RabbitMQ with the following command:
+
+```
+rabbitmq-plugins enable rabbitmq_mqtt 
+```
+
+You will switch back to the Raspberry terminal by wirting `exit` 
+
+If you wish to not use the hostname to access the website, the you can write `ip -c address` and then use the `wlan` address to write in the url with the port `15672`. In my case it would be `10.135.16.x:15672`. This will make you prompt to login with user credentials.
+
+#### Connecting to RabbitMQ from Arduino project
+
+You will have to change the broker that the [Arduino project](https://github.com/jeongoks/HiveMQ_Broker) is currently using as well as the port, as RabbitMQ uses the `1883` port instead of `8883`.
+
+I have also been giving it specific RabbitMQ Username and password, and this is because I added a new user inside of RabbitMQ's admin page; so that it will be a seperate client access the broker.
+
+Testing this is working, you can see under the tab `Connections` in RabbitMQ that the Arduino now should be connected.
+
+### Configurating InfluxDB on RaspberryPI
+
+It is fairly simple to install InfluxDB in docker, as docker hub already has an image for us to use. So by running the following command, you can easily install it:
+
+```
+docker run -d -p 8086:8086 -v influxdb:/var/lib/influxdb -v influxdb2:/var/lib/influxdb2 influxdb:2.0
+```
+
+Then you can access InfluxDB by writing your `hostname.local:8086` or your `ip.address:8086`. The website will ask your to set up an account, so you will do that and follow the guide in there until you have it set up.
+
+Once this is done, then you will need to create a new Bucket because you cannot use the initial bucket that it prompted you to create. While also creating this bucket, then make a `scoped api token` which will have `Read/Write` access to this new bucket.
+
+In the [Web project](https://github.com/jeongoks/Telemetry_Project/tree/RaspberryPi_Setup/Telemetry.Web) you will need to update the Influx data with this bucket, as well as the `URL` now being `ip.address:8086`, the `token` with the new one you created and then also the `Measurement` name whatever you wish for it to be.
+
+These configurations will be moved to `Appsettings.json` instead of user secrets.
+
+### Deploying API to RaspberryPI
+
+
 
 ## Use of third parties
 | Package name                                                                             | Version        |
