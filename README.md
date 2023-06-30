@@ -253,11 +253,7 @@ docker run -d -p 8086:8086 -v influxdb:/var/lib/influxdb -v influxdb2:/var/lib/i
 
 Then you can access InfluxDB by writing your `hostname.local:8086` or your `ip.address:8086`. The website will ask your to set up an account, so you will do that and follow the guide in there until you have it set up.
 
-Once this is done, then you will need to create a new Bucket because you cannot use the initial bucket that it prompted you to create. While also creating this bucket, then make a `scoped api token` which will have `Read/Write` access to this new bucket.
-
-In the [Web project](https://github.com/jeongoks/Telemetry_Project/tree/RaspberryPi_Setup/Telemetry.Web) you will need to update the Influx data with this bucket, as well as the `URL` now being `ip.address:8086`, the `token` with the new one you created and then also the `Measurement` name whatever you wish for it to be.
-
-These configurations will be moved to `Appsettings.json` instead of user secrets.
+Once this is done, then you will need to create a new Bucket because you cannot use the initial bucket that it prompted you to create. While also creating this bucket, then make a new `scoped api token` which will have `Read/Write` access to this new bucket.
 
 ### Deploying API to RaspberryPI
 
