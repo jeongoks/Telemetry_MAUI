@@ -172,7 +172,15 @@ After this, open up a powershell terminal with administrator rights and make sur
 ssh pi@<hostname>.local
 ```
 
-After this then write the command `sudo apt update` and once that finished, then write the command `sudo apt upgrade` to install the updates. Important to accept all of the questions.
+After this then write the command:
+```
+sudo apt update
+``` 
+
+Once that finishes, then write this command to install updates and remember to accept all of the prompted questions: 
+```
+sudo apt upgrade
+``` 
 
 ### Docker on Rapberry Pi
 
@@ -253,7 +261,41 @@ These configurations will be moved to `Appsettings.json` instead of user secrets
 
 ### Deploying API to RaspberryPI
 
+To deploy, then you will have to copy your solution of your project to lay onto the RaspberryPI.
+- Do this by using [WinSCP](https://winscp.net/eng/download.php).
+- Connect with your RaspberryPI host on there in a new tab.
+- Make a new directory on the RaspberryPI called `projects`.
+- Choose the project, drag-and-drop over to the `projects` folder.
+- Wait until the copying is done.
 
+When this is done, then you will need to build an image of the API.
+
+Step into the directory that the Solution is placed in. In this case it would be - replace the filepath with whereever yours is:
+
+```
+cd ./projects/Telemetry_MAUI
+```
+
+When standing there, you can now build the image with the following command:
+
+```
+docker build -t api:latest -f ./Telemetry.API/Dockerfile .
+```
+
+- `-tag` can be called whatever you want.
+- `-f` is where you can find the Dockerfile in the project
+- remember to add a **.** at the end!
+
+When it finishes building, without any errors, then you need to run the image into a container.
+
+```
+docker run -p 32678:80 -e _BROKER=10.135.16.160 -d api:latest 
+```
+
+- `-p` set whatever port number followed with `:80` to let it know that it's a web.
+- `-e` this can be used to set variables in the project, where I have specified the `Broker`.
+- `-d` detacher, so it just connects when it is being run.
+- the last thing is the image which is needed to be run.
 
 ## Use of third parties
 | Package name                                                                             | Version        |
